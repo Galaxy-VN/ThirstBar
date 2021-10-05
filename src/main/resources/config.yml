@@ -1,0 +1,34 @@
+ReplaceFood: false
+# this selection will remove the food bar completely and will show the thirst bar instead
+Water:
+  Max: 100
+  Time: 100
+  # 20 tick = 1 second
+  DecreasePerTime: 1
+DamagePerSecond: 0.5
+# damage value per second when your thirst bar returns to 0
+BossBar:
+  Enable: true
+  Title: <waterPoint>/<waterMax> - <waterDecrease>
+  Color: BLUE
+  # See all colors at:
+  # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
+  Style: SEGMENTED_10
+  # All styles of bossbar
+  # SEGMENTED_10
+  # SEGMENTED_12
+  # SEGMENTED_20
+  # SEGMENTED_6
+  # SOLID
+PermissionAdmin: thirstbar.admin
+# Permission to use the commands of Waterbar
+RefreshMessage: <player> has been refreshed.
+FoodRegenWater:
+  - carrot:2
+  - potion:20
+  - golden_apple:50
+  - enchanted_golden_apple:75
+  - milk_bucket:100
+# - <material>:<value>
+# Thirst value will be restored when you eat
+# or drink the following materials

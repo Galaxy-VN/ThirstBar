@@ -1,0 +1,16 @@
+ThirstStage:
+  stage1:
+    #You can name this stage whatever you want.
+    Value: '26:50'
+    # if thirst value is between 26 and 50
+    # then the below effects will be available
+    Effects:
+      - SLOW:1
+    # You can find more effects here:
+    # https://www.digminecraft.com/lists/effect_list_pc.php
+  stage2:
+    Value: '1:25'
+    BossBarColor: RED
+    Effects:
+      - SLOW:2
+  # you can create more stages if you want
