@@ -16,13 +16,8 @@ public class CommandMain implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        String perm = Method.plugin.getConfig().getString("PermissionAdmin");
-        if (perm == null) perm = "thirstbar.admin";
-        if (!(sender instanceof Player) && !sender.hasPermission(perm) && !sender.isOp()) {
-            ListString.messengerErrorHaveNotPerm(sender);
-            return true;
-        }
         if (cmd.getName().equalsIgnoreCase(ListString.commandMain) || cmd.getName().equalsIgnoreCase(ListString.commandMainCompact)) {
+
             if (args.length == 0) {
                 ListString.messengerCommandMain(sender);
                 return true;
@@ -32,10 +27,16 @@ public class CommandMain implements CommandExecutor {
                 return true;
             }
             if (args[0].equalsIgnoreCase(ListString.commandReload)) {
+                if (!sender.isOp()
+                        && (!(sender instanceof Player)
+                        || !sender.hasPermission(ListString.getPermissionAdmin()))) {
+                    ListString.messengerErrorHaveNotPerm(sender);
+                    return true;
+                }
                 Method.plugin.reloadConfig();
                 Method.listFood = Method.plugin.getConfig().getStringList("FoodRegenWater");
                 Method.fileThirstEffect.reloadFileYAML();
-                for(Player player : Bukkit.getServer().getOnlinePlayers()){
+                for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     ListThirstPlayer.removeWaterPlayer(player);
                     ListThirstPlayer.addWaterPlayer(player);
                 }

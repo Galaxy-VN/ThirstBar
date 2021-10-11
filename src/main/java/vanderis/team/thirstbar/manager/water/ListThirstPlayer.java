@@ -130,7 +130,7 @@ public class ListThirstPlayer {
 
     private static void setBossBar(ThirstPlayer thirstPlayer, Player player, String title, String color, String style) {
         BossBar bossBar = Bukkit.createBossBar(title, BarColor.valueOf(color), BarStyle.valueOf(style));
-        if (player.getGameMode().equals(GameMode.CREATIVE)) {
+        if (player.getGameMode().equals(GameMode.CREATIVE) || thirstPlayer.isDisable()) {
             thirstPlayer.setWaterPoint(thirstPlayer.getWaterMax());
             bossBar.setProgress(1);
         } else {
@@ -179,7 +179,7 @@ public class ListThirstPlayer {
 
     private static void addEffects(ThirstPlayer thirstPlayer, String key){
         List<PotionEffect> potionEffects = Method.mapEffectOfKey.get(key);
-        if(potionEffects == null) return;
+        if(potionEffects == null || thirstPlayer.isImmune()) return;
         Player player = thirstPlayer.getPlayer();
         player.addPotionEffects(potionEffects);
         thirstPlayer.getBossBar().setColor(Method.mapBarColorOfKey.get(key));
@@ -187,7 +187,7 @@ public class ListThirstPlayer {
     }
     private static void removeEffects(ThirstPlayer thirstPlayer, String key){
         List<PotionEffect> potionEffects = Method.mapEffectOfKey.get(key);
-        if(potionEffects == null) return;
+        if(potionEffects == null || thirstPlayer.isImmune()) return;
         Player player = thirstPlayer.getPlayer();
         for(PotionEffect potionEffect : potionEffects){
             PotionEffectType type = potionEffect.getType();

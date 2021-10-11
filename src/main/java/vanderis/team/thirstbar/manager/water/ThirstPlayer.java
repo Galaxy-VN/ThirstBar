@@ -11,6 +11,8 @@ public class ThirstPlayer {
     private double waterMax;
     private double waterPoint;
     private double waterDecrease;
+    private boolean immune;
+    private boolean disable;
     private BossBar bossBar;
     private int idRepeat;
     private int locSection = -2;
@@ -47,6 +49,16 @@ public class ThirstPlayer {
 
     public int getLocSection(){ return locSection; }
 
+    @SuppressWarnings("all")
+    public boolean isImmune(){
+        return immune;
+    }
+
+    @SuppressWarnings("all")
+    public boolean isDisable(){
+        return disable;
+    }
+
     public BossBar getBossBar(){ return bossBar; }
 
     public int getIdRepeat(){ return idRepeat; }
@@ -64,6 +76,14 @@ public class ThirstPlayer {
     }
 
     public void setLocSection(int locSection) { this.locSection = locSection; }
+
+    public void setImmune(boolean immune){
+        this.immune = immune;
+    }
+
+    public void setDisable(boolean disable){
+        this.disable = disable;
+    }
 
     public void setBossBar(BossBar bossBar){ this.bossBar = bossBar; }
 

@@ -21,8 +21,18 @@ BossBar:
   # SEGMENTED_6
   # SOLID
 PermissionAdmin: thirstbar.admin
+PermissionRefresh: thirstbar.refresh
+PermissionImmune: thirstbar.immune
+PermissionSet: thirstbar.set
+PermissionDisable: thirstbar.disable
+PermissionCheck: thirstbar.check
 # Permission to use the commands of Waterbar
 RefreshMessage: <player> has been refreshed.
+ImmuneMessage: Immune <player> has been set.
+DisableMessage: Disable thirst <player> has been set.
+SetThirstPointMessage: <player> has been set thirst point to <point>.
+CheckThirstPointMessage: The thirst point <player> is <point>/<pointMax>.
+DoNotHavePermissionMessage: You don't have use this command.
 FoodRegenWater:
   - carrot:2
   - potion:20
