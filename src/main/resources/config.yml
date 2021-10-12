@@ -1,6 +1,6 @@
 ReplaceFood: false
 # this selection will remove the food bar completely and will show the thirst bar instead
-Water:
+Thirst:
   Max: 100
   Time: 100
   # 20 tick = 1 second
@@ -9,7 +9,7 @@ DamagePerSecond: 0.5
 # damage value per second when your thirst bar returns to 0
 BossBar:
   Enable: true
-  Title: <waterPoint>/<waterMax> - <waterDecrease>
+  Title: <thirstPoint>/<thirstMax> - <thirstDecrease>
   Color: BLUE
   # See all colors at:
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
@@ -26,14 +26,14 @@ PermissionImmune: thirstbar.immune
 PermissionSet: thirstbar.set
 PermissionDisable: thirstbar.disable
 PermissionCheck: thirstbar.check
-# Permission to use the commands of Waterbar
+# Permission to use the commands of thirstBar
 RefreshMessage: <player> has been refreshed.
 ImmuneMessage: Immune <player> has been set.
 DisableMessage: Disable thirst <player> has been set.
 SetThirstPointMessage: <player> has been set thirst point to <point>.
 CheckThirstPointMessage: The thirst point <player> is <point>/<pointMax>.
 DoNotHavePermissionMessage: You don't have use this command.
-FoodRegenWater:
+FoodRegenThirst:
   - carrot:2
   - potion:20
   - golden_apple:50

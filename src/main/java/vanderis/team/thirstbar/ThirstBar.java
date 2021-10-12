@@ -12,7 +12,7 @@ import vanderis.team.thirstbar.listener.ListenerPlayerJoinQuit;
 import vanderis.team.thirstbar.manager.ListString;
 import vanderis.team.thirstbar.manager.Method;
 import vanderis.team.thirstbar.manager.PlaceHolder;
-import vanderis.team.thirstbar.manager.water.ListThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
 
 import java.nio.charset.StandardCharsets;
 
@@ -22,10 +22,10 @@ public final class ThirstBar extends JavaPlugin {
     public void onEnable() {
         optionYml();
         registerListener();
-        addWaterPlayerOnline();
+        addThirstPlayerOnline();
         registerCommand();
         Method.setListThirst();
-        Method.listFood = Method.plugin.getConfig().getStringList("FoodRegenWater");
+        Method.listFood = Method.plugin.getConfig().getStringList("FoodRegenThirst");
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceHolder().register();
             optionYml();
@@ -41,7 +41,7 @@ public final class ThirstBar extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        removeWaterPlayerOnline();
+        removeThirstPlayerOnline();
     }
 
     private void optionYml() {
@@ -81,13 +81,13 @@ public final class ThirstBar extends JavaPlugin {
         }
     }
 
-    private void addWaterPlayerOnline() {
+    private void addThirstPlayerOnline() {
         for (Player player : Bukkit.getServer().getOnlinePlayers())
-            ListThirstPlayer.addWaterPlayer(player);
+            ListThirstPlayer.addThirstPlayer(player);
     }
 
-    private void removeWaterPlayerOnline() {
+    private void removeThirstPlayerOnline() {
         for (Player player : Bukkit.getServer().getOnlinePlayers())
-            ListThirstPlayer.removeWaterPlayer(player);
+            ListThirstPlayer.removeThirstPlayer(player);
     }
 }

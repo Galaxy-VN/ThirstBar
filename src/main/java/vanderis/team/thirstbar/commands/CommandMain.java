@@ -8,11 +8,11 @@ import org.bukkit.entity.Player;
 import vanderis.team.thirstbar.commands.support.CommandRefresh;
 import vanderis.team.thirstbar.manager.ListString;
 import vanderis.team.thirstbar.manager.Method;
-import vanderis.team.thirstbar.manager.water.ListThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
 
 public class CommandMain implements CommandExecutor {
 
-    private final CommandRefresh optionWater = new CommandRefresh();
+    private final CommandRefresh optionThirst = new CommandRefresh();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -34,18 +34,18 @@ public class CommandMain implements CommandExecutor {
                     return true;
                 }
                 Method.plugin.reloadConfig();
-                Method.listFood = Method.plugin.getConfig().getStringList("FoodRegenWater");
+                Method.listFood = Method.plugin.getConfig().getStringList("FoodRegenThirst");
                 Method.fileThirstEffect.reloadFileYAML();
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    ListThirstPlayer.removeWaterPlayer(player);
-                    ListThirstPlayer.addWaterPlayer(player);
+                    ListThirstPlayer.removeThirstPlayer(player);
+                    ListThirstPlayer.addThirstPlayer(player);
                 }
                 Method.setListThirst();
                 ListString.messengerCommandReload(sender);
                 return true;
             }
             if (args[0].equalsIgnoreCase(ListString.commandRefresh)) {
-                optionWater.onCommand(sender, cmd, label, args);
+                optionThirst.onCommand(sender, cmd, label, args);
                 return true;
             }
         }

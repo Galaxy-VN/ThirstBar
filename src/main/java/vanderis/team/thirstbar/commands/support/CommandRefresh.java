@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import vanderis.team.thirstbar.manager.ListString;
 import vanderis.team.thirstbar.manager.Method;
-import vanderis.team.thirstbar.manager.water.ListThirstPlayer;
-import vanderis.team.thirstbar.manager.water.ThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.ThirstPlayer;
 
 public class CommandRefresh implements CommandExecutor {
 
@@ -25,8 +25,8 @@ public class CommandRefresh implements CommandExecutor {
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
-                    thirstPlayer.setWaterPoint(thirstPlayer.getWaterMax());
+                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                    thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
                     ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
                     ListThirstPlayer.setEffectThirst(thirstPlayer);
                     ListString.messengerRefresh(player);
@@ -39,8 +39,8 @@ public class CommandRefresh implements CommandExecutor {
                     ListString.messengerErrorUndefinedPlayer(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
-                thirstPlayer.setWaterPoint(thirstPlayer.getWaterMax());
+                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
                 ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
                 ListThirstPlayer.setEffectThirst(thirstPlayer);
                 ListString.messengerRefresh(player);
@@ -58,7 +58,7 @@ public class CommandRefresh implements CommandExecutor {
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
+                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
                     thirstPlayer.setImmune(!thirstPlayer.isImmune());
                     ListThirstPlayer.setEffectThirst(thirstPlayer);
                     ListString.messengerImmune(player);
@@ -71,7 +71,7 @@ public class CommandRefresh implements CommandExecutor {
                     ListString.messengerErrorUndefinedPlayer(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
+                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
                 thirstPlayer.setImmune(!thirstPlayer.isImmune());
                 ListThirstPlayer.setEffectThirst(thirstPlayer);
                 ListString.messengerRefresh(player);
@@ -103,8 +103,8 @@ public class CommandRefresh implements CommandExecutor {
                 double value = Double.parseDouble(args[1]);
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
-                    thirstPlayer.setWaterPoint(value);
+                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                    thirstPlayer.setThirstPoint(value);
                     ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
                     ListThirstPlayer.setEffectThirst(thirstPlayer);
                     ListString.messengerSet(player, value);
@@ -122,8 +122,8 @@ public class CommandRefresh implements CommandExecutor {
                     ListString.messengerErrorUndefinedPlayer(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
-                thirstPlayer.setWaterPoint(value);
+                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                thirstPlayer.setThirstPoint(value);
                 ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
                 ListThirstPlayer.setEffectThirst(thirstPlayer);
                 ListString.messengerSet(player, value);
@@ -141,8 +141,8 @@ public class CommandRefresh implements CommandExecutor {
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
-                    ListString.messengerCheck(player, thirstPlayer.getWaterPoint(), thirstPlayer.getWaterMax());
+                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                    ListString.messengerCheck(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
                 } else {
                     ListString.messengerErrorNeedInputPlayer(sender);
                 }
@@ -152,8 +152,8 @@ public class CommandRefresh implements CommandExecutor {
                     ListString.messengerErrorUndefinedPlayer(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
-                ListString.messengerCheck(player, thirstPlayer.getWaterPoint(), thirstPlayer.getWaterMax());
+                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                ListString.messengerCheck(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
             }
             return true;
         }
@@ -168,7 +168,7 @@ public class CommandRefresh implements CommandExecutor {
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
+                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
                     thirstPlayer.setDisable(!thirstPlayer.isDisable());
                     ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
                     ListThirstPlayer.setEffectThirst(thirstPlayer);
@@ -182,7 +182,7 @@ public class CommandRefresh implements CommandExecutor {
                     ListString.messengerErrorUndefinedPlayer(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
+                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
                 thirstPlayer.setDisable(!thirstPlayer.isDisable());
                 ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
                 ListThirstPlayer.setEffectThirst(thirstPlayer);

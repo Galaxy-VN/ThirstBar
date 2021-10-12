@@ -1,4 +1,4 @@
-package vanderis.team.thirstbar.manager.water;
+package vanderis.team.thirstbar.manager.thirst;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -21,33 +21,33 @@ public class ListThirstPlayer {
     private static final HashSet<ThirstPlayer> list = new HashSet<>();
     private static final HashSet<Player> listPlayer = new HashSet<>();
 
-    private static final HashMap<String, Double> listWaterOut = new HashMap<>();
+    private static final HashMap<String, Double> listThirstOut = new HashMap<>();
     public static HashMap<Player, String> mapKeyOfPlayer = new HashMap<>();
 
-    public static void addWaterPlayer(Player player) {
+    public static void addThirstPlayer(Player player) {
         list.add(new ThirstPlayer(player));
         listPlayer.add(player);
-        if (listWaterOut.get(player.getName()) != null) {
-            getWaterPlayer(player).setWaterPoint(listWaterOut.get(player.getName()));
-            listWaterOut.remove(player.getName());
+        if (listThirstOut.get(player.getName()) != null) {
+            getThirstPlayer(player).setThirstPoint(listThirstOut.get(player.getName()));
+            listThirstOut.remove(player.getName());
         }
-        repeatingDecreaseWater(player);
+        repeatingDecreaseThirst(player);
     }
 
-    public static void addWaterPlayer(Player player, double waterMax, double waterDecrease) {
-        list.add(new ThirstPlayer(player, waterMax, waterDecrease));
+    public static void addThirstPlayer(Player player, double thirstMax, double thirstDecrease) {
+        list.add(new ThirstPlayer(player, thirstMax, thirstDecrease));
         listPlayer.add(player);
-        if (listWaterOut.get(player.getName()) != null) {
-            getWaterPlayer(player).setWaterPoint(listWaterOut.get(player.getName()));
-            listWaterOut.remove(player.getName());
+        if (listThirstOut.get(player.getName()) != null) {
+            getThirstPlayer(player).setThirstPoint(listThirstOut.get(player.getName()));
+            listThirstOut.remove(player.getName());
         }
-        repeatingDecreaseWater(player);
+        repeatingDecreaseThirst(player);
     }
 
-    public static void removeWaterPlayer(Player player) {
-        ThirstPlayer thirstPlayer = getWaterPlayer(player);
+    public static void removeThirstPlayer(Player player) {
+        ThirstPlayer thirstPlayer = getThirstPlayer(player);
         if (thirstPlayer == null) return;
-        listWaterOut.put(player.getName(), thirstPlayer.getWaterPoint());
+        listThirstOut.put(player.getName(), thirstPlayer.getThirstPoint());
         list.remove(thirstPlayer);
         Bukkit.getScheduler().cancelTask(thirstPlayer.getIdRepeat());
         ListThirstPlayer.removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));
@@ -55,7 +55,7 @@ public class ListThirstPlayer {
         thirstPlayer.getBossBar().removePlayer(player);
     }
 
-    public static HashSet<ThirstPlayer> getListWaterPlayer() {
+    public static HashSet<ThirstPlayer> getListThirstPlayer() {
         return list;
     }
 
@@ -63,13 +63,13 @@ public class ListThirstPlayer {
         return listPlayer;
     }
 
-    public static ThirstPlayer getWaterPlayer(Player player) {
+    public static ThirstPlayer getThirstPlayer(Player player) {
         return list.stream().filter(list -> list.getPlayer().equals(player)).findAny().orElse(null);
     }
 
-    public static void repeatingDecreaseWater(Player player) {
-        long delayRepeat = Method.plugin.getConfig().getLong("Water.Time");
-        ThirstPlayer thirstPlayer = getWaterPlayer(player);
+    public static void repeatingDecreaseThirst(Player player) {
+        long delayRepeat = Method.plugin.getConfig().getLong("Thirst.Time");
+        ThirstPlayer thirstPlayer = getThirstPlayer(player);
         int num = Bukkit.getScheduler().scheduleSyncRepeatingTask(Method.plugin, () -> {
             calDamageThirsty(thirstPlayer);
             changeBossBarPlayer(thirstPlayer);
@@ -81,13 +81,13 @@ public class ListThirstPlayer {
     private static void calDamageThirsty(ThirstPlayer thirstPlayer) {
         Player player = thirstPlayer.getPlayer();
         double dmg = Method.plugin.getConfig().getDouble("DamagePerSecond");
-        double waterDecrease = thirstPlayer.getWaterDecrease();
-        if (waterDecrease == 0 || player.isDead()) return;
-        double cal = thirstPlayer.getWaterPoint() - waterDecrease;
+        double thirstDecrease = thirstPlayer.getThirstDecrease();
+        if (thirstDecrease == 0 || player.isDead()) return;
+        double cal = thirstPlayer.getThirstPoint() - thirstDecrease;
         if (cal >= 0)
-            thirstPlayer.setWaterPoint(cal);
+            thirstPlayer.setThirstPoint(cal);
         else {
-            thirstPlayer.setWaterPoint(0);
+            thirstPlayer.setThirstPoint(0);
             double calHP = Math.max(0, player.getHealth() - dmg);
             player.damage(0.0000000000001);
             if (calHP > 0) {
@@ -103,9 +103,9 @@ public class ListThirstPlayer {
         Player player = thirstPlayer.getPlayer();
         String title = Method.plugin.getConfig().getString("BossBar.Title");
         if (title != null) title = title
-                .replace("<waterPoint>", String.valueOf(thirstPlayer.getWaterPoint()))
-                .replace("<waterMax>", String.valueOf(thirstPlayer.getWaterMax()))
-                .replace("<waterDecrease>", String.valueOf(thirstPlayer.getWaterDecrease()))
+                .replace("<thirstPoint>", String.valueOf(thirstPlayer.getThirstPoint()))
+                .replace("<thirstMax>", String.valueOf(thirstPlayer.getThirstMax()))
+                .replace("<thirstDecrease>", String.valueOf(thirstPlayer.getThirstDecrease()))
                 .replace('&', '§');
         else title = "";
 
@@ -121,8 +121,8 @@ public class ListThirstPlayer {
         else style = "SOLID";
         if (!listBarStyle.contains(style)) style = "SOLID";
 
-        if (thirstPlayer.getWaterPoint() > thirstPlayer.getWaterMax())
-            thirstPlayer.setWaterPoint(thirstPlayer.getWaterMax());
+        if (thirstPlayer.getThirstPoint() > thirstPlayer.getThirstMax())
+            thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
 
         setBossBar(thirstPlayer, player, title, color, style);
         replaceFood(thirstPlayer);
@@ -131,10 +131,10 @@ public class ListThirstPlayer {
     private static void setBossBar(ThirstPlayer thirstPlayer, Player player, String title, String color, String style) {
         BossBar bossBar = Bukkit.createBossBar(title, BarColor.valueOf(color), BarStyle.valueOf(style));
         if (player.getGameMode().equals(GameMode.CREATIVE) || thirstPlayer.isDisable()) {
-            thirstPlayer.setWaterPoint(thirstPlayer.getWaterMax());
+            thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
             bossBar.setProgress(1);
         } else {
-            bossBar.setProgress(thirstPlayer.getWaterPoint() / thirstPlayer.getWaterMax());
+            bossBar.setProgress(thirstPlayer.getThirstPoint() / thirstPlayer.getThirstMax());
         }
 
         if (thirstPlayer.getBossBar() == null) {
@@ -154,7 +154,7 @@ public class ListThirstPlayer {
         if (player.getGameMode().equals(GameMode.CREATIVE))
             player.setFoodLevel(player.getFoodLevel());
         else
-            player.setFoodLevel((int) ((thirstPlayer.getWaterPoint() * 20) / thirstPlayer.getWaterMax()));
+            player.setFoodLevel((int) ((thirstPlayer.getThirstPoint() * 20) / thirstPlayer.getThirstMax()));
     }
 
 
@@ -165,7 +165,7 @@ public class ListThirstPlayer {
         for(int i = 0; i < listValue.size(); i+=2){
             double valueStart = listValue.get(i);
             double valueEnd = listValue.get(i+1);
-            if(thirstPlayer.getWaterPoint() < valueStart || thirstPlayer.getWaterPoint() > valueEnd) continue;
+            if(thirstPlayer.getThirstPoint() < valueStart || thirstPlayer.getThirstPoint() > valueEnd) continue;
             String key = Method.mapKeyOfValue.get(valueStart+":"+valueEnd);
             if(mapKeyOfPlayer.get(player) != null)
                 removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));

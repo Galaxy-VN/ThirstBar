@@ -14,7 +14,7 @@ public class Method {
 
     public static Plugin plugin = ThirstBar.getPlugin(ThirstBar.class);
     public static CreateFileYaml fileThirstEffect = new CreateFileYaml("ThirstEffect");
-    public static List<String> listFood = plugin.getConfig().getStringList("FoodRegenWater");
+    public static List<String> listFood = plugin.getConfig().getStringList("FoodRegenThirst");
 
     public static List<Double> listValue = new ArrayList<>();
     public static HashMap<String, String> mapKeyOfValue = new HashMap<>();
@@ -65,7 +65,7 @@ public class Method {
             }
             double numStart = Double.parseDouble(valueStart);
             double numEnd = Double.parseDouble(valueEnd);
-            if (numEnd > Method.plugin.getConfig().getDouble("Water.Max") || numStart < 0) {
+            if (numEnd > Method.plugin.getConfig().getDouble("Thirst.Max") || numStart < 0) {
                 ListString.messengerErrorListEffect();
                 listValue = null;
                 return;

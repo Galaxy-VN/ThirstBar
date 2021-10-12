@@ -12,8 +12,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import vanderis.team.thirstbar.manager.Method;
-import vanderis.team.thirstbar.manager.water.ListThirstPlayer;
-import vanderis.team.thirstbar.manager.water.ThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.ThirstPlayer;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 
 public class ListenerPlayerConsumer implements Listener {
 
-    public static final HashMap<Player, Double> listRegenWater = new HashMap<>();
+    public static final HashMap<Player, Double> listRegenThirst = new HashMap<>();
     public static final HashMap<Player, String> listNameFood = new HashMap<>();
 
     @EventHandler
@@ -30,7 +30,7 @@ public class ListenerPlayerConsumer implements Listener {
         Player player = e.getPlayer();
         ItemStack item = e.getItem();
         listNameFood.put(player, item.getType().toString());
-        if (Method.plugin.getConfig().getBoolean("FoodRegenWater") &&
+        if (Method.plugin.getConfig().getBoolean("FoodRegenThirst") &&
                 !Method.listFood.stream().map(s -> s.toUpperCase().split(":")[0])
                         .collect(Collectors.toList()).contains(item.getType().toString()))
             e.setCancelled(true);
@@ -41,12 +41,12 @@ public class ListenerPlayerConsumer implements Listener {
             String valueS = list.split(":")[1].toUpperCase().trim();
             if (!Method.checkConvertDouble(valueS)) valueS = "1";
             double value = Double.parseDouble(valueS);
-            ThirstPlayer thirstPlayer = ListThirstPlayer.getWaterPlayer(player);
-            double cal = thirstPlayer.getWaterPoint() + value;
-            thirstPlayer.setWaterPoint(Math.min(thirstPlayer.getWaterMax(), cal));
+            ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+            double cal = thirstPlayer.getThirstPoint() + value;
+            thirstPlayer.setThirstPoint(Math.min(thirstPlayer.getThirstMax(), cal));
             ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
             ListThirstPlayer.setEffectThirst(thirstPlayer);
-            listRegenWater.put(player, value);
+            listRegenThirst.put(player, value);
             break;
         }
     }
