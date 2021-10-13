@@ -28,7 +28,7 @@ public class PlayersThirstList {
         list.add(new PlayersThirst(player));
         listPlayer.add(player);
         if (listThirstOut.get(player.getName()) != null) {
-            getThirstPlayer(player).setThirstPoint(listThirstOut.get(player.getName()));
+            getThirstPlayer(player).setThirstValue(listThirstOut.get(player.getName()));
             listThirstOut.remove(player.getName());
         }
         repeatingDecreaseThirst(player);
@@ -38,7 +38,7 @@ public class PlayersThirstList {
         list.add(new PlayersThirst(player, thirstMax, thirstDecrease));
         listPlayer.add(player);
         if (listThirstOut.get(player.getName()) != null) {
-            getThirstPlayer(player).setThirstPoint(listThirstOut.get(player.getName()));
+            getThirstPlayer(player).setThirstValue(listThirstOut.get(player.getName()));
             listThirstOut.remove(player.getName());
         }
         repeatingDecreaseThirst(player);
@@ -47,7 +47,7 @@ public class PlayersThirstList {
     public static void removeThirstPlayer(Player player) {
         PlayersThirst thirstPlayer = getThirstPlayer(player);
         if (thirstPlayer == null) return;
-        listThirstOut.put(player.getName(), thirstPlayer.getThirstPoint());
+        listThirstOut.put(player.getName(), thirstPlayer.getThirstValue());
         list.remove(thirstPlayer);
         Bukkit.getScheduler().cancelTask(thirstPlayer.getIdRepeat());
         PlayersThirstList.removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));
@@ -83,11 +83,11 @@ public class PlayersThirstList {
         double dmg = Method.plugin.getConfig().getDouble("DamagePerSecond");
         double thirstDecrease = thirstPlayer.getThirstDecrease();
         if (thirstDecrease == 0 || player.isDead()) return;
-        double cal = thirstPlayer.getThirstPoint() - thirstDecrease;
+        double cal = thirstPlayer.getThirstValue() - thirstDecrease;
         if (cal >= 0)
-            thirstPlayer.setThirstPoint(cal);
+            thirstPlayer.setThirstValue(cal);
         else {
-            thirstPlayer.setThirstPoint(0);
+            thirstPlayer.setThirstValue(0);
             double calHP = Math.max(0, player.getHealth() - dmg);
             player.damage(0.0000000000001);
             if (calHP > 0) {
@@ -103,7 +103,7 @@ public class PlayersThirstList {
         Player player = thirstPlayer.getPlayer();
         String title = Method.plugin.getConfig().getString("BossBar.Title");
         if (title != null) title = title
-                .replace("<thirstPoint>", String.valueOf(thirstPlayer.getThirstPoint()))
+                .replace("<thirstValue>", String.valueOf(thirstPlayer.getThirstValue()))
                 .replace("<thirstMax>", String.valueOf(thirstPlayer.getThirstMax()))
                 .replace("<thirstDecrease>", String.valueOf(thirstPlayer.getThirstDecrease()))
                 .replace('&', '§');
@@ -121,8 +121,8 @@ public class PlayersThirstList {
         else style = "SOLID";
         if (!listBarStyle.contains(style)) style = "SOLID";
 
-        if (thirstPlayer.getThirstPoint() > thirstPlayer.getThirstMax())
-            thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
+        if (thirstPlayer.getThirstValue() > thirstPlayer.getThirstMax())
+            thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
 
         setBossBar(thirstPlayer, player, title, color, style);
         replaceFood(thirstPlayer);
@@ -131,10 +131,10 @@ public class PlayersThirstList {
     private static void setBossBar(PlayersThirst thirstPlayer, Player player, String title, String color, String style) {
         BossBar bossBar = Bukkit.createBossBar(title, BarColor.valueOf(color), BarStyle.valueOf(style));
         if (player.getGameMode().equals(GameMode.CREATIVE) || thirstPlayer.isDisable()) {
-            thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
+            thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
             bossBar.setProgress(1);
         } else {
-            bossBar.setProgress(thirstPlayer.getThirstPoint() / thirstPlayer.getThirstMax());
+            bossBar.setProgress(thirstPlayer.getThirstValue() / thirstPlayer.getThirstMax());
         }
 
         if (thirstPlayer.getBossBar() == null) {
@@ -154,7 +154,7 @@ public class PlayersThirstList {
         if (player.getGameMode().equals(GameMode.CREATIVE))
             player.setFoodLevel(player.getFoodLevel());
         else
-            player.setFoodLevel((int) ((thirstPlayer.getThirstPoint() * 20) / thirstPlayer.getThirstMax()));
+            player.setFoodLevel((int) ((thirstPlayer.getThirstValue() * 20) / thirstPlayer.getThirstMax()));
     }
 
 
@@ -165,7 +165,7 @@ public class PlayersThirstList {
         for(int i = 0; i < listValue.size(); i+=2){
             double valueStart = listValue.get(i);
             double valueEnd = listValue.get(i+1);
-            if(thirstPlayer.getThirstPoint() < valueStart || thirstPlayer.getThirstPoint() > valueEnd) continue;
+            if(thirstPlayer.getThirstValue() < valueStart || thirstPlayer.getThirstValue() > valueEnd) continue;
             String key = Method.mapKeyOfValue.get(valueStart+":"+valueEnd);
             if(mapKeyOfPlayer.get(player) != null)
                 removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));

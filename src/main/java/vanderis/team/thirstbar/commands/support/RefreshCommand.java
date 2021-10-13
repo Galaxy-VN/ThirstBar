@@ -26,7 +26,7 @@ public class RefreshCommand implements CommandExecutor {
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                    thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
+                    thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
                     PlayersThirstList.changePlayerBossbar(thirstPlayer);
                     PlayersThirstList.setEffectThirst(thirstPlayer);
                     ListString.refreshMessage(player);
@@ -40,7 +40,7 @@ public class RefreshCommand implements CommandExecutor {
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
+                thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
                 PlayersThirstList.changePlayerBossbar(thirstPlayer);
                 PlayersThirstList.setEffectThirst(thirstPlayer);
                 ListString.refreshMessage(player);
@@ -104,7 +104,7 @@ public class RefreshCommand implements CommandExecutor {
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                    thirstPlayer.setThirstPoint(value);
+                    thirstPlayer.setThirstValue(value);
                     PlayersThirstList.changePlayerBossbar(thirstPlayer);
                     PlayersThirstList.setEffectThirst(thirstPlayer);
                     ListString.setMessage(player, value);
@@ -123,7 +123,7 @@ public class RefreshCommand implements CommandExecutor {
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                thirstPlayer.setThirstPoint(value);
+                thirstPlayer.setThirstValue(value);
                 PlayersThirstList.changePlayerBossbar(thirstPlayer);
                 PlayersThirstList.setEffectThirst(thirstPlayer);
                 ListString.setMessage(player, value);
@@ -142,7 +142,7 @@ public class RefreshCommand implements CommandExecutor {
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                    ListString.checkMessage(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
+                    ListString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
                 } else {
                     ListString.errorNeedInputPlayerMessage(sender);
                 }
@@ -153,7 +153,7 @@ public class RefreshCommand implements CommandExecutor {
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                ListString.checkMessage(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
+                ListString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
             }
             return true;
         }

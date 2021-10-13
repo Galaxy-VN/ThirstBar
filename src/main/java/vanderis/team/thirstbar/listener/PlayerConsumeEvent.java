@@ -42,8 +42,8 @@ public class PlayerConsumeEvent implements Listener {
             if (!Method.checkConvertDouble(valueS)) valueS = "1";
             double value = Double.parseDouble(valueS);
             PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-            double cal = thirstPlayer.getThirstPoint() + value;
-            thirstPlayer.setThirstPoint(Math.min(thirstPlayer.getThirstMax(), cal));
+            double cal = thirstPlayer.getThirstValue() + value;
+            thirstPlayer.setThirstValue(Math.min(thirstPlayer.getThirstMax(), cal));
             PlayersThirstList.changePlayerBossbar(thirstPlayer);
             PlayersThirstList.setEffectThirst(thirstPlayer);
             listRegenThirst.put(player, value);

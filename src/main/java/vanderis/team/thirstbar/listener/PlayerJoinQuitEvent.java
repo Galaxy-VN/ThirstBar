@@ -27,7 +27,7 @@ public class PlayerJoinQuitEvent implements Listener {
     public void onPlayerRespawn(PlayerRespawnEvent e){
         Player player = e.getPlayer();
         PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-        thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
+        thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
     }
 
 }

@@ -9,7 +9,7 @@ DamagePerSecond: 0.5
 # damage value per second when your thirst bar returns to 0
 BossBar:
   Enable: true
-  Title: <thirstPoint>/<thirstMax> - <thirstDecrease>
+  Title: <thirstValue>/<thirstMax> - <thirstDecrease>
   Color: BLUE
   # See all colors at:
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
@@ -30,8 +30,8 @@ PermissionCheck: thirstbar.check
 RefreshMessage: <player> has been refreshed.
 ImmuneMessage: Immune <player> has been set.
 DisableMessage: Disable thirst <player> has been set.
-SetThirstPointMessage: <player> has been set thirst point to <point>.
-CheckThirstPointMessage: The thirst point <player> is <point>/<pointMax>.
+SetThirstValueMessage: <player> has been set thirst value to <value>.
+CheckThirstValueMessage: The thirst value <player> is <value>/<valueMax>.
 DoNotHavePermissionMessage: You don't have use this command.
 itemConsumeRegenThirst:
   - carrot:2

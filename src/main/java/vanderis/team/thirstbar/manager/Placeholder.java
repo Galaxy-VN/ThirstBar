@@ -41,7 +41,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "MaxValue":
                 return String.valueOf(((float)((int) (thirstPlayer.getThirstMax()*100)))/100);
             case "CurrentValue":
-                return String.valueOf(((float)((int) (thirstPlayer.getThirstPoint()*100)))/100);
+                return String.valueOf(((float)((int) (thirstPlayer.getThirstValue()*100)))/100);
             case "DescendingValue":
                 return String.valueOf(((float)((int) (thirstPlayer.getThirstDecrease()*100)))/100);
             case "RegenValue":
@@ -50,7 +50,7 @@ public class Placeholder extends PlaceholderExpansion {
             case "IntMaxValue":
                 return String.valueOf((int) thirstPlayer.getThirstMax());
             case "IntCurrentValue":
-                return String.valueOf((int) thirstPlayer.getThirstPoint());
+                return String.valueOf((int) thirstPlayer.getThirstValue());
             case "IntDescendingValue":
                 return String.valueOf((int) thirstPlayer.getThirstDecrease());
             case "IntRegenValue":

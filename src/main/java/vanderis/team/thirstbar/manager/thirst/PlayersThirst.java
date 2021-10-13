@@ -9,7 +9,7 @@ public class PlayersThirst {
 
     private final Player player;
     private double thirstMax;
-    private double thirstPoint;
+    private double thirstValue;
     private double thirstDecrease;
     private boolean immune;
     private boolean disable;
@@ -20,14 +20,14 @@ public class PlayersThirst {
     public PlayersThirst(Player player, double thirstMax, double thirstDecrease) {
         this.player = player;
         this.thirstMax = thirstMax;
-        this.thirstPoint = thirstMax;
+        this.thirstValue = thirstMax;
         this.thirstDecrease = thirstDecrease;
     }
 
     public PlayersThirst(Player player) {
         this.player = player;
         this.thirstMax = Method.plugin.getConfig().getDouble("Thirst.Max");
-        this.thirstPoint = Method.plugin.getConfig().getDouble("Thirst.Max");
+        this.thirstValue = Method.plugin.getConfig().getDouble("Thirst.Max");
         this.thirstDecrease = Method.plugin.getConfig().getDouble("Thirst.DecreasePerTime");
     }
 
@@ -43,12 +43,12 @@ public class PlayersThirst {
         this.thirstMax = thirstMax;
     }
 
-    public double getThirstPoint() {
-        return thirstPoint;
+    public double getThirstValue() {
+        return thirstValue;
     }
 
-    public void setThirstPoint(double thirstPoint) {
-        this.thirstPoint = thirstPoint;
+    public void setThirstValue(double thirstValue) {
+        this.thirstValue = thirstValue;
     }
 
     public double getThirstDecrease() {

@@ -87,20 +87,20 @@ public class ListString {
     }
 
     public static void setMessage(Player player, double value) {
-        String text = Method.plugin.getConfig().getString("SetThirstPointMessage");
+        String text = Method.plugin.getConfig().getString("SetThirstValueMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName())
-                .replace("<point>", ""+Math.ceil(value*100)/100)
+                .replace("<value>", ""+Math.ceil(value*100)/100)
                 .replace('&', '§');
         player.sendMessage(text);
     }
 
-    public static void checkMessage(Player player, double point, double pointMax) {
-        String text = Method.plugin.getConfig().getString("CheckThirstPointMessage");
+    public static void checkMessage(Player player, double value, double valueMax) {
+        String text = Method.plugin.getConfig().getString("CheckThirstValueMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName())
-                .replace("<point>", ""+Math.ceil(point*100)/100)
-                .replace("<pointMax>", ""+Math.ceil(pointMax*100)/100)
+                .replace("<value>", ""+Math.ceil(value*100)/100)
+                .replace("<valueMax>", ""+Math.ceil(valueMax*100)/100)
                 .replace('&', '§');
         player.sendMessage(text);
     }
