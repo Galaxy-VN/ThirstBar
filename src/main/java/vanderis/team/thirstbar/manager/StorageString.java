@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 import java.util.List;
 
-public class ListString {
+public class StorageString {
 
     public static String mainCommand = "ThirstBar";
     public static String mainCompactCommand = "TB";
@@ -20,45 +20,21 @@ public class ListString {
     public static String checkCommand = "check";
     public static String disableCommand = "disable";
 
+    public static String permissionAdmin = "thirstbar.admin";
+    public static String permissionRefresh = "thirstbar.refresh";
+    public static String permissionRefreshOther = "thirstbar.refresh.other";
+    public static String permissionImmune = "thirstbar.immune";
+    public static String permissionImmuneOther = "thirstbar.immune.other";
+    public static String permissionSet = "thirstbar.set";
+    public static String permissionSetOther = "thirstbar.set.other";
+    public static String permissionDisable = "thirstbar.disable";
+    public static String permissionDisableOther = "thirstbar.disable.other";
+    public static String permissionCheck = "thirstbar.check";
+    public static String permissionCheckOther = "thirstbar.check.other";
+
     public static List<String> commandMainList = Arrays.asList(mainCommand, mainCompactCommand);
     public static List<String> commandFirstList = Arrays.asList(reloadCommand, helpCommand, refreshCommand,
             immuneCommand, setCommand, checkCommand, disableCommand);
-
-    public static String getPermissionAdmin(){
-        String perm = Method.plugin.getConfig().getString("PermissionAdmin");
-        if (perm == null) perm = "thirstbar.admin";
-        return perm;
-    }
-
-    public static String getPermissionRefresh(){
-        String perm = Method.plugin.getConfig().getString("PermissionRefresh");
-        if (perm == null) perm = "thirstbar.refresh";
-        return perm;
-    }
-
-    public static String getPermissionImmune(){
-        String perm = Method.plugin.getConfig().getString("PermissionImmune");
-        if (perm == null) perm = "thirstbar.immune";
-        return perm;
-    }
-
-    public static String getPermissionSet(){
-        String perm = Method.plugin.getConfig().getString("PermissionSet");
-        if (perm == null) perm = "thirstbar.set";
-        return perm;
-    }
-
-    public static String getPermissionDisable(){
-        String perm = Method.plugin.getConfig().getString("PermissionDisable");
-        if (perm == null) perm = "thirstbar.disable";
-        return perm;
-    }
-
-    public static String getPermissionCheck(){
-        String perm = Method.plugin.getConfig().getString("PermissionCheck");
-        if (perm == null) perm = "thirstbar.check";
-        return perm;
-    }
 
     public static void commandMainMessage(CommandSender sender){
         sender.sendMessage("this is command main");
@@ -73,21 +49,21 @@ public class ListString {
     }
 
     public static void refreshMessage(Player player) {
-        String text = Method.plugin.getConfig().getString("RefreshMessenger");
+        String text = StorageMethod.plugin.getConfig().getString("RefreshMessenger");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName()).replace('&', '§');
         player.sendMessage(text);
     }
 
     public static void immuneMessage(Player player) {
-        String text = Method.plugin.getConfig().getString("ImmuneMessenger");
+        String text = StorageMethod.plugin.getConfig().getString("ImmuneMessenger");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName()).replace('&', '§');
         player.sendMessage(text);
     }
 
     public static void setMessage(Player player, double value) {
-        String text = Method.plugin.getConfig().getString("SetThirstValueMessage");
+        String text = StorageMethod.plugin.getConfig().getString("SetThirstValueMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName())
                 .replace("<value>", ""+Math.ceil(value*100)/100)
@@ -96,7 +72,7 @@ public class ListString {
     }
 
     public static void checkMessage(Player player, double value, double valueMax) {
-        String text = Method.plugin.getConfig().getString("CheckThirstValueMessage");
+        String text = StorageMethod.plugin.getConfig().getString("CheckThirstValueMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName())
                 .replace("<value>", ""+Math.ceil(value*100)/100)
@@ -106,7 +82,7 @@ public class ListString {
     }
 
     public static void disableMessage(Player player) {
-        String text = Method.plugin.getConfig().getString("DisableMessage");
+        String text = StorageMethod.plugin.getConfig().getString("DisableMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName()).replace('&', '§');
         player.sendMessage(text);
@@ -121,11 +97,11 @@ public class ListString {
     }
 
     public static void errorNeedInputPlayerMessage(CommandSender sender){
-        sender.sendMessage("you need input player");
+        sender.sendMessage("You need input player.");
     }
 
     public static void errorHaveNotPermMessage(CommandSender sender){
-        String text = Method.plugin.getConfig().getString("DoNotHavePermissionMessage");
+        String text = StorageMethod.plugin.getConfig().getString("DontHavePermissionMessage");
         if (text == null) text = "";
         text = text.replace('&', '§');
         sender.sendMessage(text);

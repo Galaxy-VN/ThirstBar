@@ -11,7 +11,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
-import vanderis.team.thirstbar.manager.Method;
+import vanderis.team.thirstbar.manager.StorageMethod;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
 
@@ -30,16 +30,16 @@ public class PlayerConsumeEvent implements Listener {
         Player player = e.getPlayer();
         ItemStack item = e.getItem();
         listNameItemConsume.put(player, item.getType().toString());
-        if (Method.plugin.getConfig().getBoolean("itemConsumeRegenThirst") &&
-                !Method.listItemConsume.stream().map(s -> s.toUpperCase().split(":")[0])
+        if (StorageMethod.plugin.getConfig().getBoolean("itemConsumeRegenThirst") &&
+                !StorageMethod.listItemConsume.stream().map(s -> s.toUpperCase().split(":")[0])
                         .collect(Collectors.toList()).contains(item.getType().toString()))
             e.setCancelled(true);
-        for (String list : Method.listItemConsume) {
+        for (String list : StorageMethod.listItemConsume) {
             if (list.split(":").length != 2) continue;
             String itemConsume = list.split(":")[0].toUpperCase().trim();
             if (!item.getType().equals(Material.getMaterial(itemConsume))) continue;
             String valueS = list.split(":")[1].toUpperCase().trim();
-            if (!Method.checkConvertDouble(valueS)) valueS = "1";
+            if (!StorageMethod.checkConvertDouble(valueS)) valueS = "1";
             double value = Double.parseDouble(valueS);
             PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
             double cal = thirstPlayer.getThirstValue() + value;
@@ -77,13 +77,13 @@ public class PlayerConsumeEvent implements Listener {
             if (item == null || !item.getType().isEdible()) return;
             if (player.getFoodLevel() != 20) return;
             player.setFoodLevel(19);
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Method.plugin, () -> player.setFoodLevel(20), 1);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(StorageMethod.plugin, () -> player.setFoodLevel(20), 1);
         }
     }
 
     @EventHandler
     public void onHungerDecrease(FoodLevelChangeEvent e){
-        if(Method.plugin.getConfig().getBoolean("ReplaceFood")) e.setCancelled(true);
+        if(StorageMethod.plugin.getConfig().getBoolean("ReplaceFood")) e.setCancelled(true);
     }
 
     private List<String> listBlock() {

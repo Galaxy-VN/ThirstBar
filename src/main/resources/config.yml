@@ -20,20 +20,14 @@ BossBar:
   # SEGMENTED_20
   # SEGMENTED_6
   # SOLID
-PermissionAdmin: thirstbar.admin
-PermissionRefresh: thirstbar.refresh
-PermissionImmune: thirstbar.immune
-PermissionSet: thirstbar.set
-PermissionDisable: thirstbar.disable
-PermissionCheck: thirstbar.check
 # Permission to use the commands of thirstBar
-RefreshMessage: <player> has been refreshed.
-ImmuneMessage: Immune <player> has been set.
-DisableMessage: Disable thirst <player> has been set.
-SetThirstValueMessage: <player> has been set thirst value to <value>.
-CheckThirstValueMessage: The thirst value <player> is <value>/<valueMax>.
-DoNotHavePermissionMessage: You don't have use this command.
-itemConsumeRegenThirst:
+RefreshMessage: '&a<player> has been refreshed.'
+ImmuneMessage: '&aImmune <player> has been set.'
+DisableMessage: '&aDisable thirst <player> has been set.'
+SetThirstValueMessage: '&e<player> has been set thirst value to <value>.'
+CheckThirstValueMessage: '&eThe thirst value of <player> is <value>/<valueMax>.'
+DontHavePermissionMessage: '&cYou don't have permission to use this command.'
+ItemConsumeRegen:
   - carrot:2
   - potion:20
   - golden_apple:50

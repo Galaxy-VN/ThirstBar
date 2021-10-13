@@ -8,7 +8,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import vanderis.team.thirstbar.manager.Method;
+import vanderis.team.thirstbar.manager.StorageMethod;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,9 +68,9 @@ public class PlayersThirstList {
     }
 
     public static void repeatingDecreaseThirst(Player player) {
-        long delayRepeat = Method.plugin.getConfig().getLong("Thirst.Time");
+        long delayRepeat = StorageMethod.plugin.getConfig().getLong("Thirst.Time");
         PlayersThirst thirstPlayer = getThirstPlayer(player);
-        int num = Bukkit.getScheduler().scheduleSyncRepeatingTask(Method.plugin, () -> {
+        int num = Bukkit.getScheduler().scheduleSyncRepeatingTask(StorageMethod.plugin, () -> {
             calDamageThirsty(thirstPlayer);
             changePlayerBossbar(thirstPlayer);
             setEffectThirst(thirstPlayer);
@@ -80,7 +80,7 @@ public class PlayersThirstList {
 
     private static void calDamageThirsty(PlayersThirst thirstPlayer) {
         Player player = thirstPlayer.getPlayer();
-        double dmg = Method.plugin.getConfig().getDouble("DamagePerSecond");
+        double dmg = StorageMethod.plugin.getConfig().getDouble("DamagePerSecond");
         double thirstDecrease = thirstPlayer.getThirstDecrease();
         if (thirstDecrease == 0 || player.isDead()) return;
         double cal = thirstPlayer.getThirstValue() - thirstDecrease;
@@ -99,9 +99,9 @@ public class PlayersThirstList {
     }
 
     public static void changePlayerBossbar(PlayersThirst thirstPlayer) {
-        if (!Method.plugin.getConfig().getBoolean("BossBar.Enable")) return;
+        if (!StorageMethod.plugin.getConfig().getBoolean("BossBar.Enable")) return;
         Player player = thirstPlayer.getPlayer();
-        String title = Method.plugin.getConfig().getString("BossBar.Title");
+        String title = StorageMethod.plugin.getConfig().getString("BossBar.Title");
         if (title != null) title = title
                 .replace("<thirstValue>", String.valueOf(thirstPlayer.getThirstValue()))
                 .replace("<thirstMax>", String.valueOf(thirstPlayer.getThirstMax()))
@@ -110,13 +110,13 @@ public class PlayersThirstList {
         else title = "";
 
         HashSet<String> listBarColor = new HashSet<>(Arrays.asList("BLUE", "GREEN", "PINK", "PURPLE", "RED", "WHILE", "YELLOW"));
-        String color = Method.plugin.getConfig().getString("BossBar.Color");
+        String color = StorageMethod.plugin.getConfig().getString("BossBar.Color");
         if (color != null) color = color.toUpperCase();
         else color = "BLUE";
         if (!listBarColor.contains(color)) color = "BLUE";
 
         HashSet<String> listBarStyle = new HashSet<>(Arrays.asList("SOLID", "SEGMENTED_20", "SEGMENTED_12", "SEGMENTED_10", "SEGMENTED_6"));
-        String style = Method.plugin.getConfig().getString("BossBar.Style");
+        String style = StorageMethod.plugin.getConfig().getString("BossBar.Style");
         if (style != null) style = style.toUpperCase();
         else style = "SOLID";
         if (!listBarStyle.contains(style)) style = "SOLID";
@@ -149,7 +149,7 @@ public class PlayersThirstList {
     }
 
     private static void replaceFood(PlayersThirst thirstPlayer) {
-        if (!Method.plugin.getConfig().getBoolean("ReplaceFood")) return;
+        if (!StorageMethod.plugin.getConfig().getBoolean("ReplaceFood")) return;
         Player player = thirstPlayer.getPlayer();
         if (player.getGameMode().equals(GameMode.CREATIVE))
             player.setFoodLevel(player.getFoodLevel());
@@ -159,14 +159,14 @@ public class PlayersThirstList {
 
 
     public static void setEffectThirst(PlayersThirst thirstPlayer) {
-        List<Double> listValue = Method.listValue;
+        List<Double> listValue = StorageMethod.listValue;
         if(listValue == null) return;
         Player player = thirstPlayer.getPlayer();
         for(int i = 0; i < listValue.size(); i+=2){
             double valueStart = listValue.get(i);
             double valueEnd = listValue.get(i+1);
             if(thirstPlayer.getThirstValue() < valueStart || thirstPlayer.getThirstValue() > valueEnd) continue;
-            String key = Method.mapKeyOfValue.get(valueStart+":"+valueEnd);
+            String key = StorageMethod.mapKeyOfValue.get(valueStart+":"+valueEnd);
             if(mapKeyOfPlayer.get(player) != null)
                 removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));
             if(mapKeyOfPlayer.get(player) == null || !mapKeyOfPlayer.get(player).equals(key))
@@ -178,23 +178,23 @@ public class PlayersThirstList {
     }
 
     private static void addEffects(PlayersThirst thirstPlayer, String key){
-        List<PotionEffect> potionEffects = Method.mapEffectOfKey.get(key);
+        List<PotionEffect> potionEffects = StorageMethod.mapEffectOfKey.get(key);
         if(potionEffects == null || thirstPlayer.isImmune()) return;
         Player player = thirstPlayer.getPlayer();
         player.addPotionEffects(potionEffects);
-        thirstPlayer.getBossBar().setColor(Method.mapBarColorOfKey.get(key));
+        thirstPlayer.getBossBar().setColor(StorageMethod.mapBarColorOfKey.get(key));
         mapKeyOfPlayer.put(player, key);
     }
     private static void removeEffects(PlayersThirst thirstPlayer, String key){
-        List<PotionEffect> potionEffects = Method.mapEffectOfKey.get(key);
+        List<PotionEffect> potionEffects = StorageMethod.mapEffectOfKey.get(key);
         if(potionEffects == null || thirstPlayer.isImmune()) return;
         Player player = thirstPlayer.getPlayer();
         for(PotionEffect potionEffect : potionEffects){
             PotionEffectType type = potionEffect.getType();
             player.removePotionEffect(type);
         }
-        String color = Method.plugin.getConfig().getString("BossBar.Color");
-        thirstPlayer.getBossBar().setColor(Method.mapBarColorOfKey.get(key));
+        String color = StorageMethod.plugin.getConfig().getString("BossBar.Color");
+        thirstPlayer.getBossBar().setColor(StorageMethod.mapBarColorOfKey.get(key));
         mapKeyOfPlayer.remove(player);
     }
 }

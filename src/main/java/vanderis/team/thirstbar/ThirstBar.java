@@ -9,8 +9,8 @@ import vanderis.team.thirstbar.commands.CommandMain;
 import vanderis.team.thirstbar.commands.TabCompleted;
 import vanderis.team.thirstbar.listener.PlayerConsumeEvent;
 import vanderis.team.thirstbar.listener.PlayerJoinQuitEvent;
-import vanderis.team.thirstbar.manager.ListString;
-import vanderis.team.thirstbar.manager.Method;
+import vanderis.team.thirstbar.manager.StorageString;
+import vanderis.team.thirstbar.manager.StorageMethod;
 import vanderis.team.thirstbar.manager.Placeholder;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
 
@@ -24,8 +24,8 @@ public final class ThirstBar extends JavaPlugin {
         registerListener();
         addThirstPlayerOnline();
         registerCommand();
-        Method.setListThirst();
-        Method.listItemConsume = Method.plugin.getConfig().getStringList("itemConsumeRegenThirst");
+        StorageMethod.setListThirst();
+        StorageMethod.listItemConsume = StorageMethod.plugin.getConfig().getStringList("itemConsumeRegenThirst");
         if (getServer().getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new Placeholder().register();
             optionYml();
@@ -47,7 +47,7 @@ public final class ThirstBar extends JavaPlugin {
     private void optionYml() {
         saveDefaultConfig();
 
-        Method.fileThirstEffect.createFileYAML();
+        StorageMethod.fileThirstEffect.createFileYAML();
         String thirstYml = "ThirstStage:\n" +
                 "  stage1:\n" +
                 "    #You can name this stage whatever you want.\n" +
@@ -64,7 +64,7 @@ public final class ThirstBar extends JavaPlugin {
                 "    Effects:\n" +
                 "      - SLOW:2\n" +
                 "  # you can create more stages if you want\n";
-        Method.fileThirstEffect.saveCommentYaml(thirstYml.getBytes(StandardCharsets.UTF_8));
+        StorageMethod.fileThirstEffect.saveCommentYaml(thirstYml.getBytes(StandardCharsets.UTF_8));
     }
 
     private void registerListener() {
@@ -73,7 +73,7 @@ public final class ThirstBar extends JavaPlugin {
     }
 
     private void registerCommand() {
-        for (String command : ListString.commandMainList) {
+        for (String command : StorageString.commandMainList) {
             PluginCommand pluginCommand = getCommand(command);
             if (pluginCommand == null) continue;
             pluginCommand.setExecutor(new CommandMain());

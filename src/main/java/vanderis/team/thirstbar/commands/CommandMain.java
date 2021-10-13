@@ -6,8 +6,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import vanderis.team.thirstbar.commands.support.RefreshCommand;
-import vanderis.team.thirstbar.manager.ListString;
-import vanderis.team.thirstbar.manager.Method;
+import vanderis.team.thirstbar.manager.StorageString;
+import vanderis.team.thirstbar.manager.StorageMethod;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
 
 public class CommandMain implements CommandExecutor {
@@ -16,35 +16,33 @@ public class CommandMain implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase(ListString.mainCommand) || cmd.getName().equalsIgnoreCase(ListString.mainCompactCommand)) {
+        if (cmd.getName().equalsIgnoreCase(StorageString.mainCommand) || cmd.getName().equalsIgnoreCase(StorageString.mainCompactCommand)) {
 
             if (args.length == 0) {
-                ListString.commandMainMessage(sender);
+                StorageString.commandMainMessage(sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase(ListString.helpCommand)) {
-                ListString.commandHelpMessage(sender);
+            if (args[0].equalsIgnoreCase(StorageString.helpCommand)) {
+                StorageString.commandHelpMessage(sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase(ListString.reloadCommand)) {
-                if (!sender.isOp()
-                        && (!(sender instanceof Player)
-                        || !sender.hasPermission(ListString.getPermissionAdmin()))) {
-                    ListString.errorHaveNotPermMessage(sender);
+            if (args[0].equalsIgnoreCase(StorageString.reloadCommand)) {
+                if ((sender instanceof Player) && !sender.isOp() && !sender.hasPermission(StorageString.permissionAdmin)) {
+                    StorageString.errorHaveNotPermMessage(sender);
                     return true;
                 }
-                Method.plugin.reloadConfig();
-                Method.listItemConsume = Method.plugin.getConfig().getStringList("itemConsumeRegenThirst");
-                Method.fileThirstEffect.reloadFileYAML();
+                StorageMethod.plugin.reloadConfig();
+                StorageMethod.listItemConsume = StorageMethod.plugin.getConfig().getStringList("itemConsumeRegenThirst");
+                StorageMethod.fileThirstEffect.reloadFileYAML();
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                     PlayersThirstList.removeThirstPlayer(player);
                     PlayersThirstList.addThirstPlayer(player);
                 }
-                Method.setListThirst();
-                ListString.commandReloadMessage(sender);
+                StorageMethod.setListThirst();
+                StorageString.commandReloadMessage(sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase(ListString.refreshCommand)) {
+            if (args[0].equalsIgnoreCase(StorageString.refreshCommand)) {
                 optionThirst.onCommand(sender, cmd, label, args);
                 return true;
             }

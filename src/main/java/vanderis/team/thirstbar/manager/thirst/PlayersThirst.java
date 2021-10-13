@@ -2,7 +2,7 @@ package vanderis.team.thirstbar.manager.thirst;
 
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
-import vanderis.team.thirstbar.manager.Method;
+import vanderis.team.thirstbar.manager.StorageMethod;
 
 @SuppressWarnings("unused")
 public class PlayersThirst {
@@ -26,9 +26,9 @@ public class PlayersThirst {
 
     public PlayersThirst(Player player) {
         this.player = player;
-        this.thirstMax = Method.plugin.getConfig().getDouble("Thirst.Max");
-        this.thirstValue = Method.plugin.getConfig().getDouble("Thirst.Max");
-        this.thirstDecrease = Method.plugin.getConfig().getDouble("Thirst.DecreasePerTime");
+        this.thirstMax = StorageMethod.plugin.getConfig().getDouble("Thirst.Max");
+        this.thirstValue = StorageMethod.plugin.getConfig().getDouble("Thirst.Max");
+        this.thirstDecrease = StorageMethod.plugin.getConfig().getDouble("Thirst.DecreasePerTime");
     }
 
     public Player getPlayer() {

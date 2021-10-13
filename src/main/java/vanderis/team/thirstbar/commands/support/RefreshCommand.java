@@ -5,8 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import vanderis.team.thirstbar.manager.ListString;
-import vanderis.team.thirstbar.manager.Method;
+import vanderis.team.thirstbar.manager.StorageString;
+import vanderis.team.thirstbar.manager.StorageMethod;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
 
@@ -14,90 +14,82 @@ public class RefreshCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(args[0].equalsIgnoreCase(ListString.refreshCommand)){
-            if (!sender.isOp()
-                    && (!(sender instanceof Player)
-                    || (!sender.hasPermission(ListString.getPermissionAdmin())
-                    && !sender.hasPermission(ListString.getPermissionRefresh())) )) {
-                ListString.errorHaveNotPermMessage(sender);
-                return true;
-            }
+        if(args[0].equalsIgnoreCase(StorageString.refreshCommand)){
             if(args.length == 2){
+                if (checkNoPermission(sender, StorageString.permissionRefresh)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                     thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
                     PlayersThirstList.changePlayerBossbar(thirstPlayer);
                     PlayersThirstList.setEffectThirst(thirstPlayer);
-                    ListString.refreshMessage(player);
+                    StorageString.refreshMessage(player);
                 } else {
-                    ListString.errorNeedInputPlayerMessage(sender);
+                    StorageString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
+                if (checkNoPermission(sender, StorageString.permissionRefreshOther)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.errorUndefinedPlayerMessage(sender);
+                    StorageString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
                 PlayersThirstList.changePlayerBossbar(thirstPlayer);
                 PlayersThirstList.setEffectThirst(thirstPlayer);
-                ListString.refreshMessage(player);
+                StorageString.refreshMessage(player);
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.immuneCommand)){
-            if (!sender.isOp()
-                    && (!(sender instanceof Player)
-                    || (!sender.hasPermission(ListString.getPermissionAdmin())
-                    && !sender.hasPermission(ListString.getPermissionImmune())) )) {
-                ListString.errorHaveNotPermMessage(sender);
-                return true;
-            }
+        if(args[0].equalsIgnoreCase(StorageString.immuneCommand)){
             if(args.length == 2){
+                if (checkNoPermission(sender, StorageString.permissionImmune)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                     thirstPlayer.setImmune(!thirstPlayer.isImmune());
                     PlayersThirstList.setEffectThirst(thirstPlayer);
-                    ListString.immuneMessage(player);
+                    StorageString.immuneMessage(player);
                 } else {
-                    ListString.errorNeedInputPlayerMessage(sender);
+                    StorageString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
+                if (checkNoPermission(sender, StorageString.permissionImmuneOther)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.errorUndefinedPlayerMessage(sender);
+                    StorageString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setImmune(!thirstPlayer.isImmune());
                 PlayersThirstList.setEffectThirst(thirstPlayer);
-                ListString.refreshMessage(player);
+                StorageString.refreshMessage(player);
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.setCommand)){
-            if (!sender.isOp()
-                    && (!(sender instanceof Player)
-                    || (!sender.hasPermission(ListString.getPermissionAdmin())
-                    && !sender.hasPermission(ListString.getPermissionSet())) )) {
-                ListString.errorHaveNotPermMessage(sender);
-                return true;
-            }
-            if (!sender.isOp()
-                    && (!(sender instanceof Player)
-                    || (!sender.hasPermission(ListString.getPermissionAdmin())
-                    && !sender.hasPermission(ListString.getPermissionRefresh())) )) {
-                ListString.errorHaveNotPermMessage(sender);
-                return true;
-            }
+        if(args[0].equalsIgnoreCase(StorageString.setCommand)){
             if(args.length == 2){
-                ListString.errorCommandEmptyMessage(sender);
+                StorageString.errorCommandEmptyMessage(sender);
             } else if(args.length == 3){
-                if(!Method.checkConvertDouble(args[1])){
-                    ListString.errorFormatNumberMessage(sender);
+                if (checkNoPermission(sender, StorageString.permissionSet)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
+                if(!StorageMethod.checkConvertDouble(args[1])){
+                    StorageString.errorFormatNumberMessage(sender);
                     return true;
                 }
                 double value = Double.parseDouble(args[1]);
@@ -107,89 +99,101 @@ public class RefreshCommand implements CommandExecutor {
                     thirstPlayer.setThirstValue(value);
                     PlayersThirstList.changePlayerBossbar(thirstPlayer);
                     PlayersThirstList.setEffectThirst(thirstPlayer);
-                    ListString.setMessage(player, value);
+                    StorageString.setMessage(player, value);
                 } else {
-                    ListString.errorNeedInputPlayerMessage(sender);
+                    StorageString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 4){
-                if(!Method.checkConvertDouble(args[1])){
-                    ListString.errorFormatNumberMessage(sender);
+                if (checkNoPermission(sender, StorageString.permissionSetOther)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
+                if(!StorageMethod.checkConvertDouble(args[1])){
+                    StorageString.errorFormatNumberMessage(sender);
                     return true;
                 }
                 double value = Double.parseDouble(args[1]);
                 Player player = Bukkit.getServer().getPlayer(args[2]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[2]))){
-                    ListString.errorUndefinedPlayerMessage(sender);
+                    StorageString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setThirstValue(value);
                 PlayersThirstList.changePlayerBossbar(thirstPlayer);
                 PlayersThirstList.setEffectThirst(thirstPlayer);
-                ListString.setMessage(player, value);
+                StorageString.setMessage(player, value);
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.checkCommand)){
-            if (!sender.isOp()
-                    && (!(sender instanceof Player)
-                    || (!sender.hasPermission(ListString.getPermissionAdmin())
-                    && !sender.hasPermission(ListString.getPermissionCheck())) )) {
-                ListString.errorHaveNotPermMessage(sender);
-                return true;
-            }
+        if(args[0].equalsIgnoreCase(StorageString.checkCommand)){
             if(args.length == 2){
+                if (checkNoPermission(sender, StorageString.permissionCheck)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                    ListString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
+                    StorageString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
                 } else {
-                    ListString.errorNeedInputPlayerMessage(sender);
+                    StorageString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
+                if (checkNoPermission(sender, StorageString.permissionCheckOther)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.errorUndefinedPlayerMessage(sender);
+                    StorageString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                ListString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
+                StorageString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.disableCommand)){
-            if (!sender.isOp()
-                    && (!(sender instanceof Player)
-                    || (!sender.hasPermission(ListString.getPermissionAdmin())
-                    && !sender.hasPermission(ListString.getPermissionDisable())) )) {
-                ListString.errorHaveNotPermMessage(sender);
-                return true;
-            }
+        if(args[0].equalsIgnoreCase(StorageString.disableCommand)){
             if(args.length == 2){
+                if (checkNoPermission(sender, StorageString.permissionDisable)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                     thirstPlayer.setDisable(!thirstPlayer.isDisable());
                     PlayersThirstList.changePlayerBossbar(thirstPlayer);
                     PlayersThirstList.setEffectThirst(thirstPlayer);
-                    ListString.disableMessage(player);
+                    StorageString.disableMessage(player);
                 } else {
-                    ListString.errorNeedInputPlayerMessage(sender);
+                    StorageString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
+                if (checkNoPermission(sender, StorageString.permissionDisableOther)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.errorUndefinedPlayerMessage(sender);
+                    StorageString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setDisable(!thirstPlayer.isDisable());
                 PlayersThirstList.changePlayerBossbar(thirstPlayer);
                 PlayersThirstList.setEffectThirst(thirstPlayer);
-                ListString.disableMessage(player);
+                StorageString.disableMessage(player);
             }
             return true;
         }
         return false;
+    }
+
+    private boolean checkNoPermission(CommandSender sender, String perm){
+        return (sender instanceof Player) && !sender.isOp()
+                && !sender.hasPermission(StorageString.permissionAdmin)
+                && !sender.hasPermission(perm);
     }
 }

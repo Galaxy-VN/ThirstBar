@@ -10,7 +10,7 @@ import vanderis.team.thirstbar.database.CreateFileYaml;
 
 import java.util.*;
 
-public class Method {
+public class StorageMethod {
 
     public static Plugin plugin = ThirstBar.getPlugin(ThirstBar.class);
     public static CreateFileYaml fileThirstEffect = new CreateFileYaml("ThirstEffect");
@@ -50,23 +50,23 @@ public class Method {
             return;
         }
         for (String nameKey : section.getKeys(false)) {
-            String valueString = Method.fileThirstEffect.getFileYAML().getString("ThirstStage." + nameKey + ".Value");
+            String valueString = StorageMethod.fileThirstEffect.getFileYAML().getString("ThirstStage." + nameKey + ".Value");
             if (valueString == null || valueString.split(":").length != 2) {
-                ListString.errorListEffectMessage();
+                StorageString.errorListEffectMessage();
                 listValue = null;
                 return;
             }
             String valueStart = valueString.split(":")[0];
             String valueEnd = valueString.split(":")[1];
-            if (!Method.checkConvertDouble(valueStart) || !Method.checkConvertDouble(valueEnd)) {
-                ListString.errorListEffectMessage();
+            if (!StorageMethod.checkConvertDouble(valueStart) || !StorageMethod.checkConvertDouble(valueEnd)) {
+                StorageString.errorListEffectMessage();
                 listValue = null;
                 return;
             }
             double numStart = Double.parseDouble(valueStart);
             double numEnd = Double.parseDouble(valueEnd);
-            if (numEnd > Method.plugin.getConfig().getDouble("Thirst.Max") || numStart < 0) {
-                ListString.errorListEffectMessage();
+            if (numEnd > StorageMethod.plugin.getConfig().getDouble("Thirst.Max") || numStart < 0) {
+                StorageString.errorListEffectMessage();
                 listValue = null;
                 return;
             }
@@ -75,22 +75,22 @@ public class Method {
             listValue.add(numEnd);
             mapKeyOfValue.put(valueString, nameKey);
             //-------------------------EFFECTS--------------------------------
-            List<String> listNameEffects = Method.fileThirstEffect.getFileYAML().getStringList("ThirstStage." + nameKey + ".Effects");
+            List<String> listNameEffects = StorageMethod.fileThirstEffect.getFileYAML().getStringList("ThirstStage." + nameKey + ".Effects");
             List<PotionEffect> listPotionEffect = new ArrayList<>();
             for (String nameEffect : listNameEffects) {
                 if (nameEffect.split(":").length != 2) {
-                    ListString.errorListEffectMessage();
+                    StorageString.errorListEffectMessage();
                     return;
                 }
                 String name = nameEffect.split(":")[0];
                 PotionEffectType effectType = PotionEffectType.getByName(name.toUpperCase());
                 if (effectType == null) {
-                    ListString.errorListEffectMessage();
+                    StorageString.errorListEffectMessage();
                     return;
                 }
                 String powerString = nameEffect.split(":")[1];
-                if (!Method.checkConvertInteger(powerString)) {
-                    ListString.errorListEffectMessage();
+                if (!StorageMethod.checkConvertInteger(powerString)) {
+                    StorageString.errorListEffectMessage();
                     return;
                 }
                 int power = Integer.parseInt(powerString) - 1;
@@ -100,9 +100,9 @@ public class Method {
             mapEffectOfKey.put(nameKey, listPotionEffect);
             //-------------------------BAR-COLOR--------------------------------
             HashSet<String> listBarColor = new HashSet<>(Arrays.asList("BLUE", "GREEN", "PINK", "PURPLE", "RED", "WHILE", "YELLOW"));
-            String color = Method.fileThirstEffect.getFileYAML().getString("ThirstStage." + nameKey + ".BossBarColor");
+            String color = StorageMethod.fileThirstEffect.getFileYAML().getString("ThirstStage." + nameKey + ".BossBarColor");
             if (color == null) {
-                color = Method.plugin.getConfig().getString("BossBar.Color");
+                color = StorageMethod.plugin.getConfig().getString("BossBar.Color");
             } else {
                 color = color.toUpperCase();
                 if (!listBarColor.contains(color)) color = "BLUE";
@@ -112,7 +112,7 @@ public class Method {
         List<Double> listSorted = listValue;
         Collections.sort(listSorted);
         if(!listSorted.equals(listValue)){
-            ListString.errorListEffectMessage();
+            StorageString.errorListEffectMessage();
             listValue = null;
         }
     }
