@@ -16,16 +16,16 @@ import java.util.HashSet;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class ListThirstPlayer {
+public class PlayersThirstList {
 
-    private static final HashSet<ThirstPlayer> list = new HashSet<>();
+    private static final HashSet<PlayersThirst> list = new HashSet<>();
     private static final HashSet<Player> listPlayer = new HashSet<>();
 
     private static final HashMap<String, Double> listThirstOut = new HashMap<>();
     public static HashMap<Player, String> mapKeyOfPlayer = new HashMap<>();
 
     public static void addThirstPlayer(Player player) {
-        list.add(new ThirstPlayer(player));
+        list.add(new PlayersThirst(player));
         listPlayer.add(player);
         if (listThirstOut.get(player.getName()) != null) {
             getThirstPlayer(player).setThirstPoint(listThirstOut.get(player.getName()));
@@ -35,7 +35,7 @@ public class ListThirstPlayer {
     }
 
     public static void addThirstPlayer(Player player, double thirstMax, double thirstDecrease) {
-        list.add(new ThirstPlayer(player, thirstMax, thirstDecrease));
+        list.add(new PlayersThirst(player, thirstMax, thirstDecrease));
         listPlayer.add(player);
         if (listThirstOut.get(player.getName()) != null) {
             getThirstPlayer(player).setThirstPoint(listThirstOut.get(player.getName()));
@@ -45,17 +45,17 @@ public class ListThirstPlayer {
     }
 
     public static void removeThirstPlayer(Player player) {
-        ThirstPlayer thirstPlayer = getThirstPlayer(player);
+        PlayersThirst thirstPlayer = getThirstPlayer(player);
         if (thirstPlayer == null) return;
         listThirstOut.put(player.getName(), thirstPlayer.getThirstPoint());
         list.remove(thirstPlayer);
         Bukkit.getScheduler().cancelTask(thirstPlayer.getIdRepeat());
-        ListThirstPlayer.removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));
+        PlayersThirstList.removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));
         if (thirstPlayer.getBossBar() == null) return;
         thirstPlayer.getBossBar().removePlayer(player);
     }
 
-    public static HashSet<ThirstPlayer> getListThirstPlayer() {
+    public static HashSet<PlayersThirst> getListThirstPlayer() {
         return list;
     }
 
@@ -63,22 +63,22 @@ public class ListThirstPlayer {
         return listPlayer;
     }
 
-    public static ThirstPlayer getThirstPlayer(Player player) {
+    public static PlayersThirst getThirstPlayer(Player player) {
         return list.stream().filter(list -> list.getPlayer().equals(player)).findAny().orElse(null);
     }
 
     public static void repeatingDecreaseThirst(Player player) {
         long delayRepeat = Method.plugin.getConfig().getLong("Thirst.Time");
-        ThirstPlayer thirstPlayer = getThirstPlayer(player);
+        PlayersThirst thirstPlayer = getThirstPlayer(player);
         int num = Bukkit.getScheduler().scheduleSyncRepeatingTask(Method.plugin, () -> {
             calDamageThirsty(thirstPlayer);
-            changeBossBarPlayer(thirstPlayer);
+            changePlayerBossbar(thirstPlayer);
             setEffectThirst(thirstPlayer);
         }, 0, delayRepeat);
         thirstPlayer.setIdRepeat(num);
     }
 
-    private static void calDamageThirsty(ThirstPlayer thirstPlayer) {
+    private static void calDamageThirsty(PlayersThirst thirstPlayer) {
         Player player = thirstPlayer.getPlayer();
         double dmg = Method.plugin.getConfig().getDouble("DamagePerSecond");
         double thirstDecrease = thirstPlayer.getThirstDecrease();
@@ -98,7 +98,7 @@ public class ListThirstPlayer {
         }
     }
 
-    public static void changeBossBarPlayer(ThirstPlayer thirstPlayer) {
+    public static void changePlayerBossbar(PlayersThirst thirstPlayer) {
         if (!Method.plugin.getConfig().getBoolean("BossBar.Enable")) return;
         Player player = thirstPlayer.getPlayer();
         String title = Method.plugin.getConfig().getString("BossBar.Title");
@@ -128,7 +128,7 @@ public class ListThirstPlayer {
         replaceFood(thirstPlayer);
     }
 
-    private static void setBossBar(ThirstPlayer thirstPlayer, Player player, String title, String color, String style) {
+    private static void setBossBar(PlayersThirst thirstPlayer, Player player, String title, String color, String style) {
         BossBar bossBar = Bukkit.createBossBar(title, BarColor.valueOf(color), BarStyle.valueOf(style));
         if (player.getGameMode().equals(GameMode.CREATIVE) || thirstPlayer.isDisable()) {
             thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
@@ -148,7 +148,7 @@ public class ListThirstPlayer {
         }
     }
 
-    private static void replaceFood(ThirstPlayer thirstPlayer) {
+    private static void replaceFood(PlayersThirst thirstPlayer) {
         if (!Method.plugin.getConfig().getBoolean("ReplaceFood")) return;
         Player player = thirstPlayer.getPlayer();
         if (player.getGameMode().equals(GameMode.CREATIVE))
@@ -158,7 +158,7 @@ public class ListThirstPlayer {
     }
 
 
-    public static void setEffectThirst(ThirstPlayer thirstPlayer) {
+    public static void setEffectThirst(PlayersThirst thirstPlayer) {
         List<Double> listValue = Method.listValue;
         if(listValue == null) return;
         Player player = thirstPlayer.getPlayer();
@@ -177,7 +177,7 @@ public class ListThirstPlayer {
             removeEffects(thirstPlayer, mapKeyOfPlayer.get(player));
     }
 
-    private static void addEffects(ThirstPlayer thirstPlayer, String key){
+    private static void addEffects(PlayersThirst thirstPlayer, String key){
         List<PotionEffect> potionEffects = Method.mapEffectOfKey.get(key);
         if(potionEffects == null || thirstPlayer.isImmune()) return;
         Player player = thirstPlayer.getPlayer();
@@ -185,7 +185,7 @@ public class ListThirstPlayer {
         thirstPlayer.getBossBar().setColor(Method.mapBarColorOfKey.get(key));
         mapKeyOfPlayer.put(player, key);
     }
-    private static void removeEffects(ThirstPlayer thirstPlayer, String key){
+    private static void removeEffects(PlayersThirst thirstPlayer, String key){
         List<PotionEffect> potionEffects = Method.mapEffectOfKey.get(key);
         if(potionEffects == null || thirstPlayer.isImmune()) return;
         Player player = thirstPlayer.getPlayer();

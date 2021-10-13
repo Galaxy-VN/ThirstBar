@@ -12,40 +12,40 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
 import vanderis.team.thirstbar.manager.Method;
-import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
-import vanderis.team.thirstbar.manager.thirst.ThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListenerPlayerConsumer implements Listener {
+public class PlayerConsumeEvent implements Listener {
 
     public static final HashMap<Player, Double> listRegenThirst = new HashMap<>();
-    public static final HashMap<Player, String> listNameFood = new HashMap<>();
+    public static final HashMap<Player, String> listNameItemConsume = new HashMap<>();
 
     @EventHandler
-    public void onConsumer(PlayerItemConsumeEvent e) {
+    public void onConsume(PlayerItemConsumeEvent e) {
         Player player = e.getPlayer();
         ItemStack item = e.getItem();
-        listNameFood.put(player, item.getType().toString());
-        if (Method.plugin.getConfig().getBoolean("FoodRegenThirst") &&
-                !Method.listFood.stream().map(s -> s.toUpperCase().split(":")[0])
+        listNameItemConsume.put(player, item.getType().toString());
+        if (Method.plugin.getConfig().getBoolean("itemConsumeRegenThirst") &&
+                !Method.listItemConsume.stream().map(s -> s.toUpperCase().split(":")[0])
                         .collect(Collectors.toList()).contains(item.getType().toString()))
             e.setCancelled(true);
-        for (String list : Method.listFood) {
+        for (String list : Method.listItemConsume) {
             if (list.split(":").length != 2) continue;
-            String food = list.split(":")[0].toUpperCase().trim();
-            if (!item.getType().equals(Material.getMaterial(food))) continue;
+            String itemConsume = list.split(":")[0].toUpperCase().trim();
+            if (!item.getType().equals(Material.getMaterial(itemConsume))) continue;
             String valueS = list.split(":")[1].toUpperCase().trim();
             if (!Method.checkConvertDouble(valueS)) valueS = "1";
             double value = Double.parseDouble(valueS);
-            ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+            PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
             double cal = thirstPlayer.getThirstPoint() + value;
             thirstPlayer.setThirstPoint(Math.min(thirstPlayer.getThirstMax(), cal));
-            ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
-            ListThirstPlayer.setEffectThirst(thirstPlayer);
+            PlayersThirstList.changePlayerBossbar(thirstPlayer);
+            PlayersThirstList.setEffectThirst(thirstPlayer);
             listRegenThirst.put(player, value);
             break;
         }

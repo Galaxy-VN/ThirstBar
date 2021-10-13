@@ -2,11 +2,11 @@ package vanderis.team.thirstbar.manager;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
-import vanderis.team.thirstbar.listener.ListenerPlayerConsumer;
-import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
-import vanderis.team.thirstbar.manager.thirst.ThirstPlayer;
+import vanderis.team.thirstbar.listener.PlayerConsumeEvent;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
 
-public class PlaceHolder extends PlaceholderExpansion {
+public class Placeholder extends PlaceholderExpansion {
     @Override
     public String getIdentifier() {
         return "ThirstBar";
@@ -35,7 +35,7 @@ public class PlaceHolder extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player, String params) {
         if (player == null) return "";
-        ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+        PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
         if(thirstPlayer == null) return "";
         switch (params) {
             case "MaxValue":
@@ -45,8 +45,8 @@ public class PlaceHolder extends PlaceholderExpansion {
             case "DescendingValue":
                 return String.valueOf(((float)((int) (thirstPlayer.getThirstDecrease()*100)))/100);
             case "RegenValue":
-                if(ListenerPlayerConsumer.listRegenThirst.get(player) == null) return "0.0";
-                return String.valueOf(((float)((int) (ListenerPlayerConsumer.listRegenThirst.get(player)*100)))/100);
+                if(PlayerConsumeEvent.listRegenThirst.get(player) == null) return "0.0";
+                return String.valueOf(((float)((int) (PlayerConsumeEvent.listRegenThirst.get(player)*100)))/100);
             case "IntMaxValue":
                 return String.valueOf((int) thirstPlayer.getThirstMax());
             case "IntCurrentValue":
@@ -54,8 +54,8 @@ public class PlaceHolder extends PlaceholderExpansion {
             case "IntDescendingValue":
                 return String.valueOf((int) thirstPlayer.getThirstDecrease());
             case "IntRegenValue":
-                if(ListenerPlayerConsumer.listRegenThirst.get(player) == null) return "0";
-                return String.valueOf(ListenerPlayerConsumer.listRegenThirst.get(player).intValue());
+                if(PlayerConsumeEvent.listRegenThirst.get(player) == null) return "0";
+                return String.valueOf(PlayerConsumeEvent.listRegenThirst.get(player).intValue());
             default:
                 return null;
         }

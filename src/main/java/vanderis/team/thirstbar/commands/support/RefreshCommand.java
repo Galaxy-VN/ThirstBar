@@ -7,186 +7,186 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import vanderis.team.thirstbar.manager.ListString;
 import vanderis.team.thirstbar.manager.Method;
-import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
-import vanderis.team.thirstbar.manager.thirst.ThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
 
-public class CommandRefresh implements CommandExecutor {
+public class RefreshCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(args[0].equalsIgnoreCase(ListString.commandRefresh)){
+        if(args[0].equalsIgnoreCase(ListString.refreshCommand)){
             if (!sender.isOp()
                     && (!(sender instanceof Player)
                     || (!sender.hasPermission(ListString.getPermissionAdmin())
                     && !sender.hasPermission(ListString.getPermissionRefresh())) )) {
-                ListString.messengerErrorHaveNotPerm(sender);
+                ListString.errorHaveNotPermMessage(sender);
                 return true;
             }
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                    PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                     thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
-                    ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
-                    ListThirstPlayer.setEffectThirst(thirstPlayer);
-                    ListString.messengerRefresh(player);
+                    PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                    ListString.refreshMessage(player);
                 } else {
-                    ListString.messengerErrorNeedInputPlayer(sender);
+                    ListString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.messengerErrorUndefinedPlayer(sender);
+                    ListString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
-                ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
-                ListThirstPlayer.setEffectThirst(thirstPlayer);
-                ListString.messengerRefresh(player);
+                PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                PlayersThirstList.setEffectThirst(thirstPlayer);
+                ListString.refreshMessage(player);
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.commandImmune)){
+        if(args[0].equalsIgnoreCase(ListString.immuneCommand)){
             if (!sender.isOp()
                     && (!(sender instanceof Player)
                     || (!sender.hasPermission(ListString.getPermissionAdmin())
                     && !sender.hasPermission(ListString.getPermissionImmune())) )) {
-                ListString.messengerErrorHaveNotPerm(sender);
+                ListString.errorHaveNotPermMessage(sender);
                 return true;
             }
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                    PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                     thirstPlayer.setImmune(!thirstPlayer.isImmune());
-                    ListThirstPlayer.setEffectThirst(thirstPlayer);
-                    ListString.messengerImmune(player);
+                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                    ListString.immuneMessage(player);
                 } else {
-                    ListString.messengerErrorNeedInputPlayer(sender);
+                    ListString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.messengerErrorUndefinedPlayer(sender);
+                    ListString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setImmune(!thirstPlayer.isImmune());
-                ListThirstPlayer.setEffectThirst(thirstPlayer);
-                ListString.messengerRefresh(player);
+                PlayersThirstList.setEffectThirst(thirstPlayer);
+                ListString.refreshMessage(player);
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.commandSet)){
+        if(args[0].equalsIgnoreCase(ListString.setCommand)){
             if (!sender.isOp()
                     && (!(sender instanceof Player)
                     || (!sender.hasPermission(ListString.getPermissionAdmin())
                     && !sender.hasPermission(ListString.getPermissionSet())) )) {
-                ListString.messengerErrorHaveNotPerm(sender);
+                ListString.errorHaveNotPermMessage(sender);
                 return true;
             }
             if (!sender.isOp()
                     && (!(sender instanceof Player)
                     || (!sender.hasPermission(ListString.getPermissionAdmin())
                     && !sender.hasPermission(ListString.getPermissionRefresh())) )) {
-                ListString.messengerErrorHaveNotPerm(sender);
+                ListString.errorHaveNotPermMessage(sender);
                 return true;
             }
             if(args.length == 2){
-                ListString.messengerErrorCommandEmpty(sender);
+                ListString.errorCommandEmptyMessage(sender);
             } else if(args.length == 3){
                 if(!Method.checkConvertDouble(args[1])){
-                    ListString.messengerErrorFormatNumber(sender);
+                    ListString.errorFormatNumberMessage(sender);
                     return true;
                 }
                 double value = Double.parseDouble(args[1]);
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                    PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                     thirstPlayer.setThirstPoint(value);
-                    ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
-                    ListThirstPlayer.setEffectThirst(thirstPlayer);
-                    ListString.messengerSet(player, value);
+                    PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                    ListString.setMessage(player, value);
                 } else {
-                    ListString.messengerErrorNeedInputPlayer(sender);
+                    ListString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 4){
                 if(!Method.checkConvertDouble(args[1])){
-                    ListString.messengerErrorFormatNumber(sender);
+                    ListString.errorFormatNumberMessage(sender);
                     return true;
                 }
                 double value = Double.parseDouble(args[1]);
                 Player player = Bukkit.getServer().getPlayer(args[2]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[2]))){
-                    ListString.messengerErrorUndefinedPlayer(sender);
+                    ListString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setThirstPoint(value);
-                ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
-                ListThirstPlayer.setEffectThirst(thirstPlayer);
-                ListString.messengerSet(player, value);
+                PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                PlayersThirstList.setEffectThirst(thirstPlayer);
+                ListString.setMessage(player, value);
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.commandCheck)){
+        if(args[0].equalsIgnoreCase(ListString.checkCommand)){
             if (!sender.isOp()
                     && (!(sender instanceof Player)
                     || (!sender.hasPermission(ListString.getPermissionAdmin())
                     && !sender.hasPermission(ListString.getPermissionCheck())) )) {
-                ListString.messengerErrorHaveNotPerm(sender);
+                ListString.errorHaveNotPermMessage(sender);
                 return true;
             }
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
-                    ListString.messengerCheck(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
+                    PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
+                    ListString.checkMessage(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
                 } else {
-                    ListString.messengerErrorNeedInputPlayer(sender);
+                    ListString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.messengerErrorUndefinedPlayer(sender);
+                    ListString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
-                ListString.messengerCheck(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
+                PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
+                ListString.checkMessage(player, thirstPlayer.getThirstPoint(), thirstPlayer.getThirstMax());
             }
             return true;
         }
-        if(args[0].equalsIgnoreCase(ListString.commandDisable)){
+        if(args[0].equalsIgnoreCase(ListString.disableCommand)){
             if (!sender.isOp()
                     && (!(sender instanceof Player)
                     || (!sender.hasPermission(ListString.getPermissionAdmin())
                     && !sender.hasPermission(ListString.getPermissionDisable())) )) {
-                ListString.messengerErrorHaveNotPerm(sender);
+                ListString.errorHaveNotPermMessage(sender);
                 return true;
             }
             if(args.length == 2){
                 if(sender instanceof Player){
                     Player player = (Player) sender;
-                    ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                    PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                     thirstPlayer.setDisable(!thirstPlayer.isDisable());
-                    ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
-                    ListThirstPlayer.setEffectThirst(thirstPlayer);
-                    ListString.messengerDisable(player);
+                    PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                    ListString.disableMessage(player);
                 } else {
-                    ListString.messengerErrorNeedInputPlayer(sender);
+                    ListString.errorNeedInputPlayerMessage(sender);
                 }
             } else if(args.length >= 3){
                 Player player = Bukkit.getServer().getPlayer(args[1]);
                 if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[1]))){
-                    ListString.messengerErrorUndefinedPlayer(sender);
+                    ListString.errorUndefinedPlayerMessage(sender);
                     return true;
                 }
-                ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+                PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
                 thirstPlayer.setDisable(!thirstPlayer.isDisable());
-                ListThirstPlayer.changeBossBarPlayer(thirstPlayer);
-                ListThirstPlayer.setEffectThirst(thirstPlayer);
-                ListString.messengerDisable(player);
+                PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                PlayersThirstList.setEffectThirst(thirstPlayer);
+                ListString.disableMessage(player);
             }
             return true;
         }

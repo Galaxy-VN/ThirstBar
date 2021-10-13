@@ -10,19 +10,19 @@ import java.util.List;
 
 public class ListString {
 
-    public static String commandMain = "ThirstBar";
-    public static String commandMainCompact = "TB";
-    public static String commandReload = "reload";
-    public static String commandHelp = "help";
-    public static String commandRefresh = "refresh";
-    public static String commandImmune = "immune";
-    public static String commandSet = "set";
-    public static String commandCheck = "check";
-    public static String commandDisable = "disable";
+    public static String mainCommand = "ThirstBar";
+    public static String mainCompactCommand = "TB";
+    public static String reloadCommand = "reload";
+    public static String helpCommand = "help";
+    public static String refreshCommand = "refresh";
+    public static String immuneCommand = "immune";
+    public static String setCommand = "set";
+    public static String checkCommand = "check";
+    public static String disableCommand = "disable";
 
-    public static List<String> listCommandMain = Arrays.asList(commandMain, commandMainCompact);
-    public static List<String> listCommandFirst = Arrays.asList(commandReload, commandHelp, commandRefresh,
-            commandImmune, commandSet, commandCheck, commandDisable);
+    public static List<String> commandMainList = Arrays.asList(mainCommand, mainCompactCommand);
+    public static List<String> commandFirstList = Arrays.asList(reloadCommand, helpCommand, refreshCommand,
+            immuneCommand, setCommand, checkCommand, disableCommand);
 
     public static String getPermissionAdmin(){
         String perm = Method.plugin.getConfig().getString("PermissionAdmin");
@@ -60,33 +60,33 @@ public class ListString {
         return perm;
     }
 
-    public static void messengerCommandMain(CommandSender sender){
+    public static void commandMainMessage(CommandSender sender){
         sender.sendMessage("this is command main");
     }
 
-    public static void messengerCommandHelp(CommandSender sender){
+    public static void commandHelpMessage(CommandSender sender){
         sender.sendMessage("this is command help");
     }
 
-    public static void messengerCommandReload(CommandSender sender){
+    public static void commandReloadMessage(CommandSender sender){
         sender.sendMessage("successful reload");
     }
 
-    public static void messengerRefresh(Player player) {
+    public static void refreshMessage(Player player) {
         String text = Method.plugin.getConfig().getString("RefreshMessenger");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName()).replace('&', '§');
         player.sendMessage(text);
     }
 
-    public static void messengerImmune(Player player) {
+    public static void immuneMessage(Player player) {
         String text = Method.plugin.getConfig().getString("ImmuneMessenger");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName()).replace('&', '§');
         player.sendMessage(text);
     }
 
-    public static void messengerSet(Player player, double value) {
+    public static void setMessage(Player player, double value) {
         String text = Method.plugin.getConfig().getString("SetThirstPointMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName())
@@ -95,7 +95,7 @@ public class ListString {
         player.sendMessage(text);
     }
 
-    public static void messengerCheck(Player player, double point, double pointMax) {
+    public static void checkMessage(Player player, double point, double pointMax) {
         String text = Method.plugin.getConfig().getString("CheckThirstPointMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName())
@@ -105,37 +105,37 @@ public class ListString {
         player.sendMessage(text);
     }
 
-    public static void messengerDisable(Player player) {
+    public static void disableMessage(Player player) {
         String text = Method.plugin.getConfig().getString("DisableMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName()).replace('&', '§');
         player.sendMessage(text);
     }
 
-    public static void messengerErrorUndefinedPlayer(CommandSender sender){
+    public static void errorUndefinedPlayerMessage(CommandSender sender){
         sender.sendMessage("Player undefined in server or not online");
     }
 
-    public static void messengerErrorCommandEmpty(CommandSender sender){
+    public static void errorCommandEmptyMessage(CommandSender sender){
         sender.sendMessage("This command can't empty.");
     }
 
-    public static void messengerErrorNeedInputPlayer(CommandSender sender){
+    public static void errorNeedInputPlayerMessage(CommandSender sender){
         sender.sendMessage("you need input player");
     }
 
-    public static void messengerErrorHaveNotPerm(CommandSender sender){
+    public static void errorHaveNotPermMessage(CommandSender sender){
         String text = Method.plugin.getConfig().getString("DoNotHavePermissionMessage");
         if (text == null) text = "";
         text = text.replace('&', '§');
         sender.sendMessage(text);
     }
 
-    public static void messengerErrorFormatNumber(CommandSender sender){
+    public static void errorFormatNumberMessage(CommandSender sender){
         sender.sendMessage("Can't format string to number.");
     }
 
-    public static void messengerErrorListEffect(){
+    public static void errorListEffectMessage(){
         Bukkit.getConsoleSender().sendRawMessage(ChatColor.RED+"Error in EffectThirsty. You can't use this");
     }
 

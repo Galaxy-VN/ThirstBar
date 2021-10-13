@@ -6,27 +6,27 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import vanderis.team.thirstbar.manager.thirst.ListThirstPlayer;
-import vanderis.team.thirstbar.manager.thirst.ThirstPlayer;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
 
-public class ListenerPlayerJoinQuit implements Listener {
+public class PlayerJoinQuitEvent implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         Player player = e.getPlayer();
-        ListThirstPlayer.addThirstPlayer(player);
+        PlayersThirstList.addThirstPlayer(player);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e){
         Player player = e.getPlayer();
-        ListThirstPlayer.removeThirstPlayer(player);
+        PlayersThirstList.removeThirstPlayer(player);
     }
 
     @EventHandler
-    public void onPlayerRevival(PlayerRespawnEvent e){
+    public void onPlayerRespawn(PlayerRespawnEvent e){
         Player player = e.getPlayer();
-        ThirstPlayer thirstPlayer = ListThirstPlayer.getThirstPlayer(player);
+        PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
         thirstPlayer.setThirstPoint(thirstPlayer.getThirstMax());
     }
 

@@ -16,13 +16,13 @@ public class TabCompleted implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-        if (cmd.getName().equalsIgnoreCase(ListString.commandMain) || cmd.getName().equalsIgnoreCase(ListString.commandMainCompact)) {
+        if (cmd.getName().equalsIgnoreCase(ListString.mainCommand) || cmd.getName().equalsIgnoreCase(ListString.mainCompactCommand)) {
             if(args.length == 1){
-                return advancedTabCompleted(args, 0, ListString.listCommandFirst);
+                return advancedTabCompleted(args, 0, ListString.commandFirstList);
             }
-            if(args[0].equalsIgnoreCase(ListString.commandRefresh)){
+            if(args[0].equalsIgnoreCase(ListString.refreshCommand)){
                 if(args.length == 2) {
-                    return advancedTabCompleted(args, 1, getAllPlayerOnline());
+                    return advancedTabCompleted(args, 1, getAllOnlinePlayer());
                 }
             }
         }
@@ -36,7 +36,7 @@ public class TabCompleted implements TabCompleter {
         return completions;
     }
 
-    private List<String> getAllPlayerOnline(){
+    private List<String> getAllOnlinePlayer(){
         List<String> list = new ArrayList<>();
         for(Player player : Bukkit.getServer().getOnlinePlayers()){
             list.add(player.getName());

@@ -14,7 +14,7 @@ public class Method {
 
     public static Plugin plugin = ThirstBar.getPlugin(ThirstBar.class);
     public static CreateFileYaml fileThirstEffect = new CreateFileYaml("ThirstEffect");
-    public static List<String> listFood = plugin.getConfig().getStringList("FoodRegenThirst");
+    public static List<String> listItemConsume = plugin.getConfig().getStringList("itemConsumeRegenThirst");
 
     public static List<Double> listValue = new ArrayList<>();
     public static HashMap<String, String> mapKeyOfValue = new HashMap<>();
@@ -52,21 +52,21 @@ public class Method {
         for (String nameKey : section.getKeys(false)) {
             String valueString = Method.fileThirstEffect.getFileYAML().getString("ThirstStage." + nameKey + ".Value");
             if (valueString == null || valueString.split(":").length != 2) {
-                ListString.messengerErrorListEffect();
+                ListString.errorListEffectMessage();
                 listValue = null;
                 return;
             }
             String valueStart = valueString.split(":")[0];
             String valueEnd = valueString.split(":")[1];
             if (!Method.checkConvertDouble(valueStart) || !Method.checkConvertDouble(valueEnd)) {
-                ListString.messengerErrorListEffect();
+                ListString.errorListEffectMessage();
                 listValue = null;
                 return;
             }
             double numStart = Double.parseDouble(valueStart);
             double numEnd = Double.parseDouble(valueEnd);
             if (numEnd > Method.plugin.getConfig().getDouble("Thirst.Max") || numStart < 0) {
-                ListString.messengerErrorListEffect();
+                ListString.errorListEffectMessage();
                 listValue = null;
                 return;
             }
@@ -79,18 +79,18 @@ public class Method {
             List<PotionEffect> listPotionEffect = new ArrayList<>();
             for (String nameEffect : listNameEffects) {
                 if (nameEffect.split(":").length != 2) {
-                    ListString.messengerErrorListEffect();
+                    ListString.errorListEffectMessage();
                     return;
                 }
                 String name = nameEffect.split(":")[0];
                 PotionEffectType effectType = PotionEffectType.getByName(name.toUpperCase());
                 if (effectType == null) {
-                    ListString.messengerErrorListEffect();
+                    ListString.errorListEffectMessage();
                     return;
                 }
                 String powerString = nameEffect.split(":")[1];
                 if (!Method.checkConvertInteger(powerString)) {
-                    ListString.messengerErrorListEffect();
+                    ListString.errorListEffectMessage();
                     return;
                 }
                 int power = Integer.parseInt(powerString) - 1;
@@ -112,7 +112,7 @@ public class Method {
         List<Double> listSorted = listValue;
         Collections.sort(listSorted);
         if(!listSorted.equals(listValue)){
-            ListString.messengerErrorListEffect();
+            ListString.errorListEffectMessage();
             listValue = null;
         }
     }

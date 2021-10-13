@@ -33,7 +33,7 @@ DisableMessage: Disable thirst <player> has been set.
 SetThirstPointMessage: <player> has been set thirst point to <point>.
 CheckThirstPointMessage: The thirst point <player> is <point>/<pointMax>.
 DoNotHavePermissionMessage: You don't have use this command.
-FoodRegenThirst:
+itemConsumeRegenThirst:
   - carrot:2
   - potion:20
   - golden_apple:50

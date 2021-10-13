@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import vanderis.team.thirstbar.manager.Method;
 
 @SuppressWarnings("unused")
-public class ThirstPlayer {
+public class PlayersThirst {
 
     private final Player player;
     private double thirstMax;
@@ -17,14 +17,14 @@ public class ThirstPlayer {
     private int idRepeat;
     private int locSection = -2;
 
-    public ThirstPlayer(Player player, double thirstMax, double thirstDecrease) {
+    public PlayersThirst(Player player, double thirstMax, double thirstDecrease) {
         this.player = player;
         this.thirstMax = thirstMax;
         this.thirstPoint = thirstMax;
         this.thirstDecrease = thirstDecrease;
     }
 
-    public ThirstPlayer(Player player) {
+    public PlayersThirst(Player player) {
         this.player = player;
         this.thirstMax = Method.plugin.getConfig().getDouble("Thirst.Max");
         this.thirstPoint = Method.plugin.getConfig().getDouble("Thirst.Max");
