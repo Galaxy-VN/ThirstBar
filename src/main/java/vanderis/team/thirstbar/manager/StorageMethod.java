@@ -1,5 +1,6 @@
 package vanderis.team.thirstbar.manager;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.boss.BarColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
@@ -9,6 +10,8 @@ import vanderis.team.thirstbar.ThirstBar;
 import vanderis.team.thirstbar.database.CreateFileYaml;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StorageMethod {
 
@@ -20,6 +23,17 @@ public class StorageMethod {
     public static HashMap<String, String> mapKeyOfValue = new HashMap<>();
     public static HashMap<String, List<PotionEffect>> mapEffectOfKey = new HashMap<>();
     public static HashMap<String, BarColor> mapBarColorOfKey = new HashMap<>();
+    private final static Pattern pattern = Pattern.compile("&(#[a-fA-F0-9]{6})");
+
+    public static String formatToHexColor(String text){
+        Matcher matcher = pattern.matcher(text);
+        while (matcher.find()){
+            String color = text.substring(matcher.start(), matcher.end());
+            text = text.replace(color, ChatColor.of(color)+"");
+            matcher = pattern.matcher(text);
+        }
+        return ChatColor.translateAlternateColorCodes('&', text);
+    }
 
     @SuppressWarnings("all")
     public static boolean checkConvertDouble(String text) {

@@ -113,7 +113,7 @@ public class PlayersThirstList {
         String color = StorageMethod.plugin.getConfig().getString("BossBar.Color");
         if (color != null) color = color.toUpperCase();
         else color = "BLUE";
-        if (!listBarColor.contains(color)) color = "BLUE";
+        if (!listBarColor.contains(color) || thirstPlayer.isImmune()) color = "BLUE";
 
         HashSet<String> listBarStyle = new HashSet<>(Arrays.asList("SOLID", "SEGMENTED_20", "SEGMENTED_12", "SEGMENTED_10", "SEGMENTED_6"));
         String style = StorageMethod.plugin.getConfig().getString("BossBar.Style");

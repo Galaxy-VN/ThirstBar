@@ -15,7 +15,7 @@ public class RefreshCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(args[0].equalsIgnoreCase(StorageString.refreshCommand)){
-            if(args.length == 2){
+            if(args.length == 1){
                 if (checkNoPermission(sender, StorageString.permissionRefresh)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -30,7 +30,7 @@ public class RefreshCommand implements CommandExecutor {
                 } else {
                     StorageString.errorNeedInputPlayerMessage(sender);
                 }
-            } else if(args.length >= 3){
+            } else {
                 if (checkNoPermission(sender, StorageString.permissionRefreshOther)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -49,7 +49,7 @@ public class RefreshCommand implements CommandExecutor {
             return true;
         }
         if(args[0].equalsIgnoreCase(StorageString.immuneCommand)){
-            if(args.length == 2){
+            if(args.length == 1){
                 if (checkNoPermission(sender, StorageString.permissionImmune)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -57,13 +57,22 @@ public class RefreshCommand implements CommandExecutor {
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                    thirstPlayer.setImmune(!thirstPlayer.isImmune());
-                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                    if(!thirstPlayer.isImmune()) {
+                        double value = thirstPlayer.getThirstValue();
+                        thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
+                        PlayersThirstList.setEffectThirst(thirstPlayer);
+                        thirstPlayer.setThirstValue(value);
+                        thirstPlayer.setImmune(!thirstPlayer.isImmune());
+                    } else {
+                        thirstPlayer.setImmune(!thirstPlayer.isImmune());
+                        PlayersThirstList.setEffectThirst(thirstPlayer);
+                    }
+                    PlayersThirstList.changePlayerBossbar(thirstPlayer);
                     StorageString.immuneMessage(player);
                 } else {
                     StorageString.errorNeedInputPlayerMessage(sender);
                 }
-            } else if(args.length >= 3){
+            } else {
                 if (checkNoPermission(sender, StorageString.permissionImmuneOther)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -74,16 +83,25 @@ public class RefreshCommand implements CommandExecutor {
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                thirstPlayer.setImmune(!thirstPlayer.isImmune());
-                PlayersThirstList.setEffectThirst(thirstPlayer);
+                if(!thirstPlayer.isImmune()) {
+                    double value = thirstPlayer.getThirstValue();
+                    thirstPlayer.setThirstValue(thirstPlayer.getThirstMax());
+                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                    thirstPlayer.setThirstValue(value);
+                    thirstPlayer.setImmune(!thirstPlayer.isImmune());
+                } else {
+                    thirstPlayer.setImmune(!thirstPlayer.isImmune());
+                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                }
+                PlayersThirstList.changePlayerBossbar(thirstPlayer);
                 StorageString.refreshMessage(player);
             }
             return true;
         }
         if(args[0].equalsIgnoreCase(StorageString.setCommand)){
-            if(args.length == 2){
+            if(args.length == 1){
                 StorageString.errorCommandEmptyMessage(sender);
-            } else if(args.length == 3){
+            } else if(args.length == 2){
                 if (checkNoPermission(sender, StorageString.permissionSet)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -103,7 +121,7 @@ public class RefreshCommand implements CommandExecutor {
                 } else {
                     StorageString.errorNeedInputPlayerMessage(sender);
                 }
-            } else if(args.length >= 4){
+            } else {
                 if (checkNoPermission(sender, StorageString.permissionSetOther)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -127,7 +145,7 @@ public class RefreshCommand implements CommandExecutor {
             return true;
         }
         if(args[0].equalsIgnoreCase(StorageString.checkCommand)){
-            if(args.length == 2){
+            if(args.length == 1){
                 if (checkNoPermission(sender, StorageString.permissionCheck)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -135,11 +153,11 @@ public class RefreshCommand implements CommandExecutor {
                 if(sender instanceof Player){
                     Player player = (Player) sender;
                     PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                    StorageString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
+                    StorageString.checkMessage(sender, player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
                 } else {
                     StorageString.errorNeedInputPlayerMessage(sender);
                 }
-            } else if(args.length >= 3){
+            } else {
                 if (checkNoPermission(sender, StorageString.permissionCheckOther)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -150,12 +168,12 @@ public class RefreshCommand implements CommandExecutor {
                     return true;
                 }
                 PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
-                StorageString.checkMessage(player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
+                StorageString.checkMessage(sender, player, thirstPlayer.getThirstValue(), thirstPlayer.getThirstMax());
             }
             return true;
         }
         if(args[0].equalsIgnoreCase(StorageString.disableCommand)){
-            if(args.length == 2){
+            if(args.length == 1){
                 if (checkNoPermission(sender, StorageString.permissionDisable)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;
@@ -170,7 +188,7 @@ public class RefreshCommand implements CommandExecutor {
                 } else {
                     StorageString.errorNeedInputPlayerMessage(sender);
                 }
-            } else if(args.length >= 3){
+            } else {
                 if (checkNoPermission(sender, StorageString.permissionDisableOther)) {
                     StorageString.errorHaveNotPermMessage(sender);
                     return true;

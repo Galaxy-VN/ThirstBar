@@ -22,10 +22,6 @@ public class CommandMain implements CommandExecutor {
                 StorageString.commandMainMessage(sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase(StorageString.helpCommand)) {
-                StorageString.commandHelpMessage(sender);
-                return true;
-            }
             if (args[0].equalsIgnoreCase(StorageString.reloadCommand)) {
                 if ((sender instanceof Player) && !sender.isOp() && !sender.hasPermission(StorageString.permissionAdmin)) {
                     StorageString.errorHaveNotPermMessage(sender);
@@ -42,7 +38,7 @@ public class CommandMain implements CommandExecutor {
                 StorageString.commandReloadMessage(sender);
                 return true;
             }
-            if (args[0].equalsIgnoreCase(StorageString.refreshCommand)) {
+            if (StorageString.commandFirstList.stream().anyMatch(a -> args[0].equalsIgnoreCase(a))) {
                 optionThirst.onCommand(sender, cmd, label, args);
                 return true;
             }
