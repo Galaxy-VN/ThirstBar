@@ -45,43 +45,43 @@ public class StorageString {
             case "v1_17_R1":
             case "v1_17_R2":
                 text =
-                        "&7&m(━━━<<━━━━━━━━&l[&r &#007fff&lT&#008afe&lH&#0095fe&lI&#009ffd&lR&#00aafd&lS&#00b5fc&lT&#17bdf8 &#2ec5f3&lB&#44ccef&lA&#5bd4ea&lR &7&l&m]━━━━━━━━>>━━━)\n" +
-                                "\n" +
-                                "&f &#007fff&lC&#0088ff&lO&#0091fe&lM&#009afe&lM&#00a3fd&lA&#00acfd&lN&#00b5fc&lD&#0fbaf9&lS &#2ec4f3&lL&#3dcaf0&lI&#4ccfed&lS&#5bd4ea&lT\n" +
-                                "\n" +
-                                "&f /tb <refresh> <player>:&e Refresh yourself or other players.\n" +
-                                "&f /tb set <value> <player>:&e Set thirst value on yourself or other players.\n" +
-                                "&f /tb immune <player>:&e Immune to the bad effects of thirst.\n" +
-                                "&f /tb disable <player>:&e Your or other player's thirst value will always be at 100%.\n" +
-                                "&f /tb check <player>: &eCheck your thirst value or another Player.\n" +
-                                "\n" +
-                                "&f &7*Remove the <player> argument if you want to apply the command to yourself\n" +
-                                "\n" +
-                                "&f &#007fff&lA&#0091fe&lU&#00a3fd&lT&#00b5fc&lH&#2ec5f3&lO&#5bd4ea&lR :&r&f [ Vanderis - Dev ]\n" +
-                                "&f &#007fff&lV&#0091fe&lE&#00a3fd&lR&#00b5fc&lS&#1ebff6&lI&#3dcaf0&lO&#5bd4ea&lN :&f {version}\n" +
-                                "\n" +
-                                "&7&m(━━━<<━━━━━━━━&l[&r &#007fff&lT&#008afe&lH&#0095fe&lI&#009ffd&lR&#00aafd&lS&#00b5fc&lT&#17bdf8 &#2ec5f3&lB&#44ccef&lA&#5bd4ea&lR &7&l&m]━━━━━━━━>>━━━)";
-                sender.sendMessage(StorageMethod.formatToHexColor(text).replace("{version}", "1.0"));
+                        "§7§m(━━━<<━━━━━━━━§l[§r #007fff§lT#008afe§lH#0095fe§lI#009ffd§lR#00aafd§lS#00b5fc§lT#17bdf8 #2ec5f3§lB#44ccef§lA#5bd4ea§lR §7§l§m]━━━━━━━━>>━━━)\n" +
+                                "&r\n " +
+                                "§f#007fff§lC#0088ff§lO#0091fe§lM#009afe§lM#00a3fd§lA#00acfd§lN#00b5fc§lD#0fbaf9§lS #2ec4f3§lL#3dcaf0§lI#4ccfed§lS#5bd4ea§lT\n" +
+                                "&r\n " +
+                                "&f/tb refresh [player]:&e Refresh yourself or other players.\n" +
+                                "&f /tb set <value> [player]:&e Set thirst value on yourself or other players.\n" +
+                                "&f /tb immune [player]:&e Immune to the bad effects of thirst.\n" +
+                                "&f /tb disable [player]:&e Your or other player's thirst value will always be at 100%.\n" +
+                                "&f /tb check [player]: &eCheck your thirst value or another player.\n" +
+                                "&r\n " +
+                                "&f&7* Remove the [player] argument if you want to apply the command to yourself\n" +
+                                "&r\n " +
+                                "§f#007fff§lA#0091fe&lU#00a3fd&lT#00b5fc&lH#2ec5f3&lO#5bd4ea&lR :&r&f [ Vanderis - Dev ]\n" +
+                                "&f #007fff&lV#0091fe&lE#00a3fd&lR#00b5fc&lS#1ebff6&lI#3dcaf0&lO#5bd4ea&lN :&f {version}" +
+                                "&r\n &r" +
+                                "&7&m(━━━<<━━━━━━━━&l[&r #007fff&lT#008afe&lH#0095fe&lI#009ffd&lR#00aafd&lS#00b5fc&lT#17bdf8 #2ec5f3&lB#44ccef&lA#5bd4ea&lR &7&l&m]━━━━━━━━>>━━━)";
+                sender.sendMessage(StorageMethod.formatToHexColor(text).replace("{version}", Bukkit.getServer().getPluginManager().getPlugin("ThirstBar").getDescription().getVersion()));
                 break;
             default:
                 text =
                         "&7&m(━━━<<━━━━━━━━&l[&r &b&lTHIRST BAR &7&l&m]━━━━━━━━>>━━━)\n" +
-                                "\n" +
-                                "&f &b&lCOMMANDS LIST\n" +
-                                "\n" +
-                                "&f /tb <refresh> <player>:&e Refresh yourself or other players.\n" +
-                                "&f /tb set <value> <player>:&e Set thirst value on yourself or other players.\n" +
-                                "&f /tb immune <player>:&e Immune to the bad effects of thirst.\n" +
-                                "&f /tb disable <player>:&e Your or other player's thirst value will always be at 100%.\n" +
-                                "&f /tb check <player>: &eCheck your thirst value or another Player.\n" +
-                                "\n" +
-                                "&f &7*Remove the <player> argument if you want to apply the command to yourself\n" +
-                                "\n" +
-                                "&f &b&lAUTHOR :&r&f [ Vanderis - Dev ]\n" +
-                                "&f &b&lVERSION :&f {version}\n" +
-                                "\n" +
+                                "&r\n " +
+                                "&f&b&lCOMMANDS LIST\n" +
+                                "&r\n " +
+                                "&f/tb refresh <player>:&e Refresh yourself or other players.\n" +
+                                "&f /tb set <value> [player]:&e Set thirst value on yourself or other players.\n" +
+                                "&f /tb immune [player]:&e Immune to the bad effects of thirst.\n" +
+                                "&f /tb disable [player]:&e Your or other player's thirst value will always be at 100%.\n" +
+                                "&f /tb check [player]: &eCheck your thirst value or another player.\n" +
+                                "&r\n " +
+                                "&f&7*Remove the [player] argument if you want to apply the command to yourself\n" +
+                                "&r\n " +
+                                "&f&b&lAUTHOR :&r&f [ Vanderis - Dev ]\n" +
+                                "&f &b&lVERSION :&f {version}" +
+                                "&r\n &r" +
                                 "&7&m(━━━<<━━━━━━━━&l[&r &b&lTHIRST BAR &7&l&m]━━━━━━━━>>━━━)";
-                sender.sendMessage(text.replace('&', '§').replace("{version}", "1.0"));
+                sender.sendMessage(text.replace('&', '§').replace("{version}", Bukkit.getServer().getPluginManager().getPlugin("ThirstBar").getDescription().getVersion()));
         }
     }
 

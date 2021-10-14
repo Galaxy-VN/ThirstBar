@@ -14,7 +14,7 @@ BossBar:
   # See all colors at:
   # https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Color.html
   Style: SEGMENTED_10
-  # All styles of bossbar
+  # All styles of BossBar
   # SEGMENTED_10
   # SEGMENTED_12
   # SEGMENTED_20
@@ -26,7 +26,7 @@ ImmuneMessage: '&aImmune <player> has been set.'
 DisableMessage: '&aDisable thirst <player> has been set.'
 SetThirstValueMessage: '&e<player> has been set thirst value to <value>.'
 CheckThirstValueMessage: '&eThe thirst value of <player> is <value>/<valueMax>.'
-DontHavePermissionMessage: '&cYou dont have permission to use this command.'
+DontHavePermissionMessage: '&cYou don't have permission to use this command.'
 ItemConsumeRegen:
   - carrot:2
   - potion:20

@@ -23,7 +23,7 @@ public class StorageMethod {
     public static HashMap<String, String> mapKeyOfValue = new HashMap<>();
     public static HashMap<String, List<PotionEffect>> mapEffectOfKey = new HashMap<>();
     public static HashMap<String, BarColor> mapBarColorOfKey = new HashMap<>();
-    private final static Pattern pattern = Pattern.compile("&(#[a-fA-F0-9]{6})");
+    private final static Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 
     public static String formatToHexColor(String text){
         Matcher matcher = pattern.matcher(text);

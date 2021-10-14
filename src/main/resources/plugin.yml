@@ -1,7 +1,6 @@
 name: ThirstBar
 version: ${project.version}
 main: vanderis.team.thirstbar.ThirstBar
-api-version: 1.9
 commands:
   ThirstBar:
     description: This is command!
