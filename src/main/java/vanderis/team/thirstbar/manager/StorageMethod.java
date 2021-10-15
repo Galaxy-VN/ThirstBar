@@ -17,7 +17,7 @@ public class StorageMethod {
 
     public static Plugin plugin = ThirstBar.getPlugin(ThirstBar.class);
     public static CreateFileYaml fileThirstEffect = new CreateFileYaml("ThirstEffect");
-    public static List<String> listItemConsume = plugin.getConfig().getStringList("itemConsumeRegenThirst");
+    public static List<String> listItemConsume = plugin.getConfig().getStringList("ItemConsumeRegen");
 
     public static List<Double> listValue = new ArrayList<>();
     public static HashMap<String, String> mapKeyOfValue = new HashMap<>();

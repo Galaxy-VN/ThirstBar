@@ -13,13 +13,20 @@ import vanderis.team.thirstbar.manager.StorageString;
 import vanderis.team.thirstbar.manager.StorageMethod;
 import vanderis.team.thirstbar.manager.Placeholder;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
+import vanderis.team.thirstbar.update.UpdateChecker;
 
 import java.nio.charset.StandardCharsets;
 
 public final class ThirstBar extends JavaPlugin {
 
+    private static ThirstBar thirstBar;
+    private String textUpdate;
+
     @Override
     public void onEnable() {
+
+        thirstBar = this;
+
         optionYml();
         registerListener();
         addThirstPlayerOnline();
@@ -32,11 +39,9 @@ public final class ThirstBar extends JavaPlugin {
         }
         Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "\n" +
                 "\n" +
-                "  _____ _     _          _     ____             \n" +
-                " |_   _| |__ (_)_ __ ___| |_  | __ )  __ _ _ __ \n" +
-                "   | | | '_ \\| | '__/ __| __| |  _ \\ / _` | '__|\n" +
-                "   | | | | | | | |  \\__ \\ |_  | |_) | (_| | |   \n" +
-                "   |_| |_| |_|_|_|  |___/\\__| |____/ \\__,_|_|   \n" +
+                "T H I R S T  B A R" +
+                "Version: " + this.getDescription().getVersion() + " \n" +
+                "Update-check: " + checkForUpdate() +
                 "                                                \n");
     }
 
@@ -90,5 +95,21 @@ public final class ThirstBar extends JavaPlugin {
     private void removeThirstPlayerOnline() {
         for (Player player : Bukkit.getServer().getOnlinePlayers())
             PlayersThirstList.removeThirstPlayer(player);
+    }
+
+    private String checkForUpdate() {
+        new UpdateChecker(this, 96845).getVersion(version -> {
+            if (this.getDescription().getVersion().equals(version)) {
+                textUpdate =  "There is not a new update available.";
+            } else {
+                textUpdate =  "There is a new update available.";
+            }
+        });
+
+        return textUpdate;
+    }
+
+    public static ThirstBar getInstance() {
+        return thirstBar;
     }
 }

@@ -2,6 +2,7 @@ package vanderis.team.thirstbar.manager;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
+import vanderis.team.thirstbar.ThirstBar;
 import vanderis.team.thirstbar.listener.PlayerConsumeEvent;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
@@ -19,7 +20,7 @@ public class Placeholder extends PlaceholderExpansion {
 
     @Override
     public String getVersion() {
-        return "1.0";
+        return ThirstBar.getInstance().getDescription().getVersion();
     }
 
     @Override

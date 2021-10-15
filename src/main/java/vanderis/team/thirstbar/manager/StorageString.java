@@ -4,6 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import vanderis.team.thirstbar.ThirstBar;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
+import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +38,8 @@ public class StorageString {
     public static List<String> commandFirstList = Arrays.asList(reloadCommand, refreshCommand,
             immuneCommand, setCommand, checkCommand, disableCommand);
 
+    private static final ThirstBar thirstBar = ThirstBar.getInstance();
+
     public static void commandMainMessage(CommandSender sender) {
         String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
         String text;
@@ -61,7 +66,7 @@ public class StorageString {
                                 "&f #007fff&lV#0091fe&lE#00a3fd&lR#00b5fc&lS#1ebff6&lI#3dcaf0&lO#5bd4ea&lN :&f {version}" +
                                 "&r\n &r" +
                                 "&7&m(━━━<<━━━━━━━━&l[&r #007fff&lT#008afe&lH#0095fe&lI#009ffd&lR#00aafd&lS#00b5fc&lT#17bdf8 #2ec5f3&lB#44ccef&lA#5bd4ea&lR &7&l&m]━━━━━━━━>>━━━)";
-                sender.sendMessage(StorageMethod.formatToHexColor(text).replace("{version}", Bukkit.getServer().getPluginManager().getPlugin("ThirstBar").getDescription().getVersion()));
+                sender.sendMessage(StorageMethod.formatToHexColor(text).replace("{version}", thirstBar.getDescription().getVersion()));
                 break;
             default:
                 text =
@@ -81,7 +86,7 @@ public class StorageString {
                                 "&f &b&lVERSION :&f {version}" +
                                 "&r\n &r" +
                                 "&7&m(━━━<<━━━━━━━━&l[&r &b&lTHIRST BAR &7&l&m]━━━━━━━━>>━━━)";
-                sender.sendMessage(text.replace('&', '§').replace("{version}", Bukkit.getServer().getPluginManager().getPlugin("ThirstBar").getDescription().getVersion()));
+                sender.sendMessage(text.replace('&', '§').replace("{version}", thirstBar.getDescription().getVersion()));
         }
     }
 
@@ -123,10 +128,20 @@ public class StorageString {
     }
 
     public static void disableMessage(Player player) {
-        String text = StorageMethod.plugin.getConfig().getString("DisableMessage");
-        if (text == null) text = "";
-        text = text.replace("<player>", player.getName()).replace('&', '§');
-        player.sendMessage(text);
+        String disable_mess = StorageMethod.plugin.getConfig().getString("DisableMessage");
+        String enable_mess = StorageMethod.plugin.getConfig().getString("EnableMessage");
+
+        if (disable_mess == null || enable_mess == null) disable_mess = ""; enable_mess = "";
+        disable_mess = disable_mess.replace("<player>", player.getName()).replace('&', '§');
+        enable_mess = enable_mess.replace("<player>", player.getName()).replace('&', '§');
+
+        PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
+
+        if (thirstPlayer.isDisable()) {
+            player.sendMessage(enable_mess);
+        } else {
+            player.sendMessage(disable_mess);
+        }
     }
 
     public static void errorUndefinedPlayerMessage(CommandSender sender) {
