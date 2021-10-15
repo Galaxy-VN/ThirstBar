@@ -101,12 +101,11 @@ public class PlayersThirstList {
     public static void changePlayerBossbar(PlayersThirst thirstPlayer) {
         if (!StorageMethod.plugin.getConfig().getBoolean("BossBar.Enable")) return;
         Player player = thirstPlayer.getPlayer();
-        String title = StorageMethod.plugin.getConfig().getString("BossBar.Title");
+        String title = StorageMethod.plugin.getConfig().getString(StorageMethod.formatToHexColor("BossBar.Title"));
         if (title != null) title = title
                 .replace("<thirstValue>", String.valueOf(thirstPlayer.getThirstValue()))
                 .replace("<thirstMax>", String.valueOf(thirstPlayer.getThirstMax()))
-                .replace("<thirstDecrease>", String.valueOf(thirstPlayer.getThirstDecrease()))
-                .replace('&', '§');
+                .replace("<thirstDecrease>", String.valueOf(thirstPlayer.getThirstDecrease()));
         else title = "";
 
         HashSet<String> listBarColor = new HashSet<>(Arrays.asList("BLUE", "GREEN", "PINK", "PURPLE", "RED", "WHILE", "YELLOW"));

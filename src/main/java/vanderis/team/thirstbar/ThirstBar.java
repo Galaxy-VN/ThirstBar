@@ -37,12 +37,9 @@ public final class ThirstBar extends JavaPlugin {
             new Placeholder().register();
             optionYml();
         }
-        Bukkit.getConsoleSender().sendMessage(ChatColor.BLUE + "\n" +
-                "\n" +
-                "T H I R S T  B A R" +
-                "Version: " + this.getDescription().getVersion() + " \n" +
-                "Update-check: " + checkForUpdate() +
-                "                                                \n");
+        Bukkit.getConsoleSender().sendMessage(
+                "§7[ThirstBar] - Version: §a" + this.getDescription().getVersion() + " \n" +
+                "§7[ThirstBar] - Update-check: §a" + checkForUpdate());
     }
 
     @Override

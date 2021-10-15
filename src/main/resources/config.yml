@@ -27,7 +27,7 @@ DisableMessage: '&aDisable thirst <player> has been set.'
 EnableMessage: '&aEnable thirst <player> has been set.'
 SetThirstValueMessage: '&e<player> has been set thirst value to <value>.'
 CheckThirstValueMessage: '&eThe thirst value of <player> is <value>/<valueMax>.'
-DontHavePermissionMessage: '&cYou don't have permission to use this command.'
+DontHavePermissionMessage: "&cYou don't have permission to use this command."
 ItemConsumeRegen:
   - carrot:2
   - potion:20

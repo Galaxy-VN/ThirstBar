@@ -1,5 +1,5 @@
 name: ThirstBar
-version: 1.01
+version: 1.1
 main: vanderis.team.thirstbar.ThirstBar
 commands:
   ThirstBar:

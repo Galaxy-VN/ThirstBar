@@ -30,7 +30,7 @@ public class PlayerConsumeEvent implements Listener {
         Player player = e.getPlayer();
         ItemStack item = e.getItem();
         listNameItemConsume.put(player, item.getType().toString());
-        if (StorageMethod.plugin.getConfig().getBoolean("ItemConsumeRegen") &&
+        if (StorageMethod.plugin.getConfig().getBoolean("ReplaceFood") &&
                 !StorageMethod.listItemConsume.stream().map(s -> s.toUpperCase().split(":")[0])
                         .collect(Collectors.toList()).contains(item.getType().toString()))
             e.setCancelled(true);
