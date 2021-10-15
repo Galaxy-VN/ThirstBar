@@ -29,7 +29,6 @@ SetThirstValueMessage: '&e<player> has been set thirst value to <value>.'
 CheckThirstValueMessage: '&eThe thirst value of <player> is <value>/<valueMax>.'
 DontHavePermissionMessage: "&cYou don't have permission to use this command."
 ItemConsumeRegen:
-  - carrot:2
   - potion:20
   - golden_apple:50
   - enchanted_golden_apple:75

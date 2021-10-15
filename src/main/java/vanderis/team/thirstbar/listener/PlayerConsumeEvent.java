@@ -11,6 +11,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.ItemStack;
+import vanderis.team.thirstbar.ThirstBar;
 import vanderis.team.thirstbar.manager.StorageMethod;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirstList;
 import vanderis.team.thirstbar.manager.thirst.PlayersThirst;
@@ -37,15 +38,20 @@ public class PlayerConsumeEvent implements Listener {
         for (String list : StorageMethod.listItemConsume) {
             if (list.split(":").length != 2) continue;
             String itemConsume = list.split(":")[0].toUpperCase().trim();
+
             if (!item.getType().equals(Material.getMaterial(itemConsume))) continue;
             String valueS = list.split(":")[1].toUpperCase().trim();
+
             if (!StorageMethod.checkConvertDouble(valueS)) valueS = "1";
+
             double value = Double.parseDouble(valueS);
             PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
             double cal = thirstPlayer.getThirstValue() + value;
             thirstPlayer.setThirstValue(Math.min(thirstPlayer.getThirstMax(), cal));
+
             PlayersThirstList.changePlayerBossbar(thirstPlayer);
             PlayersThirstList.setEffectThirst(thirstPlayer);
+
             listRegenThirst.put(player, value);
             break;
         }
