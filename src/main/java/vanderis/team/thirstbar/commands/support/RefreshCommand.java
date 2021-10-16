@@ -144,6 +144,52 @@ public class RefreshCommand implements CommandExecutor {
             }
             return true;
         }
+        if(args[0].equalsIgnoreCase(StorageString.addCommand)) {
+            if(args.length == 1) {
+                StorageString.errorCommandEmptyMessage(sender);
+            } else if(args.length == 2) {
+                if (checkNoPermission(sender, StorageString.permissionAdd)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
+                if(!StorageMethod.checkConvertDouble(args[1])){
+                    StorageString.errorFormatNumberMessage(sender);
+                    return true;
+                }
+                double value = Double.parseDouble(args[1]);
+                if(sender instanceof Player){
+                    Player player = (Player) sender;
+                    PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
+                    thirstPlayer.setThirstValue(thirstPlayer.getThirstValue() + value);
+                    PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                    PlayersThirstList.setEffectThirst(thirstPlayer);
+                    StorageString.addMessage(player, value);
+                } else {
+                    StorageString.errorNeedInputPlayerMessage(sender);
+                }
+            } else {
+                if (checkNoPermission(sender, StorageString.permissionAddOther)) {
+                    StorageString.errorHaveNotPermMessage(sender);
+                    return true;
+                }
+                if(!StorageMethod.checkConvertDouble(args[1])){
+                    StorageString.errorFormatNumberMessage(sender);
+                    return true;
+                }
+                double value = Double.parseDouble(args[1]);
+                Player player = Bukkit.getServer().getPlayer(args[2]);
+                if(Bukkit.getOnlinePlayers().stream().noneMatch(p -> p.getName().equals(args[2]))){
+                    StorageString.errorUndefinedPlayerMessage(sender);
+                    return true;
+                }
+                PlayersThirst thirstPlayer = PlayersThirstList.getThirstPlayer(player);
+                thirstPlayer.setThirstValue(thirstPlayer.getThirstValue() + value);
+                PlayersThirstList.changePlayerBossbar(thirstPlayer);
+                PlayersThirstList.setEffectThirst(thirstPlayer);
+                StorageString.addMessage(player, value);
+            }
+            return true;
+        }
         if(args[0].equalsIgnoreCase(StorageString.checkCommand)){
             if(args.length == 1){
                 if (checkNoPermission(sender, StorageString.permissionCheck)) {

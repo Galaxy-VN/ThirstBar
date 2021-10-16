@@ -19,6 +19,7 @@ public class StorageString {
     public static String refreshCommand = "refresh";
     public static String immuneCommand = "immune";
     public static String setCommand = "set";
+    public static String addCommand = "add";
     public static String checkCommand = "check";
     public static String disableCommand = "disable";
 
@@ -29,6 +30,8 @@ public class StorageString {
     public static String permissionImmuneOther = "thirstbar.immune.other";
     public static String permissionSet = "thirstbar.set";
     public static String permissionSetOther = "thirstbar.set.other";
+    public static String permissionAdd = "thirstbar.add";
+    public static String permissionAddOther = "thirstbar.add.other";
     public static String permissionDisable = "thirstbar.disable";
     public static String permissionDisableOther = "thirstbar.disable.other";
     public static String permissionCheck = "thirstbar.check";
@@ -56,6 +59,7 @@ public class StorageString {
                                 "&r\n " +
                                 "&f/tb refresh [player]:&e Refresh yourself or other players.\n" +
                                 "&f /tb set <value> [player]:&e Set thirst value on yourself or other players.\n" +
+                                "&f /tb add <value> [player]:&e Add thirst value on yourself or other players.\n" +
                                 "&f /tb immune [player]:&e Immune to the bad effects of thirst.\n" +
                                 "&f /tb disable [player]:&e Your or other player's thirst value will always be at 100%.\n" +
                                 "&f /tb check [player]: &eCheck your thirst value or another player.\n" +
@@ -76,6 +80,7 @@ public class StorageString {
                                 "&r\n " +
                                 "&f/tb refresh <player>:&e Refresh yourself or other players.\n" +
                                 "&f /tb set <value> [player]:&e Set thirst value on yourself or other players.\n" +
+                                "&f /tb add <value> [player]:&e Add thirst value on yourself or other players.\n" +
                                 "&f /tb immune [player]:&e Immune to the bad effects of thirst.\n" +
                                 "&f /tb disable [player]:&e Your or other player's thirst value will always be at 100%.\n" +
                                 "&f /tb check [player]: &eCheck your thirst value or another player.\n" +
@@ -110,6 +115,15 @@ public class StorageString {
 
     public static void setMessage(Player player, double value) {
         String text = StorageMethod.plugin.getConfig().getString("SetThirstValueMessage");
+        if (text == null) text = "";
+        text = text.replace("<player>", player.getName())
+                .replace("<value>", "" + Math.ceil(value * 100) / 100)
+                .replace('&', '§');
+        player.sendMessage(text);
+    }
+
+    public static void addMessage(Player player, double value) {
+        String text = StorageMethod.plugin.getConfig().getString("AddThirstValueMessage");
         if (text == null) text = "";
         text = text.replace("<player>", player.getName())
                 .replace("<value>", "" + Math.ceil(value * 100) / 100)
